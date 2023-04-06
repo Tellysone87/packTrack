@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Package Tracking{% endblock %}
+
+<!-- Puts button onto the nav bar -->
+{% block button %}</i><a href="/tracking.html"><i class="bi bi-truck"></i>Tracking Page</a>{% endblock %}
+
+{% block content %}
+
+<h3>Profile Information</h3>
+<table id="profile_table">
+    <th>First Name</th>
+    <th>Last Name
+    </th>
+    <th>Address</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Email</th>
+    <tr>
+        <td>{{user.fname}}</td>
+        <td>{{user.lname}}</td>
+        <td>{{user.address}}</td>
+        <td>{{user.city}}</td>
+        <td>{{user.state}}</td>
+        <td>{{user.email}}</td>
+    </tr>
+</table>
+{% endblock %}
+
+{% block example %}
+Update your profile
+
+<form action="/profile" method="POST">
+  
+        <p>
+            First Name <input type="text" name="fname">
+        </p>
+    
+        <p>
+            Last Name <input type="text" name="lname">
+        </p>
+    
+        <p>
+            Street Address <input type="text" name="address">
+        </p>
+    
+        <p>
+            City <input type="text" name="city">
+        </p>
+    
+        <p>
+            State <input type="text" name="state">
+        </p>
+    
+        <p>
+            Email <input type="text" name="email">
+        </p>
+    
+        <p>
+            <button type="submit">Update</button>
+        </p>
+    </form>
+{% endblock %}

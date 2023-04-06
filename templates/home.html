@@ -1,0 +1,18 @@
+<!-- Extends from the base.html 
+this is the websites home page-->
+{% extends 'base.html' %}
+
+{% block title %}PackTrack Home Page{% endblock %}
+
+<!-- Puts button onto the nav bar -->
+{% block button %}<a href="/login.html"><button id="sign_in">Sign in</button></a>{% endblock %}
+
+<!-- Placing the body content into the body of page -->
+{% block content %}
+<h1> You've got Packages</h1>
+<img src="../static/img/Packages photos.png" alt="a stack of parcel packages" width="500" height="600">
+{% endblock %}
+
+{% block example %}
+<h2>Track your packages in one place</h2>
+{% endblock %}

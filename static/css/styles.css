@@ -1,0 +1,113 @@
+#nav_bar {
+    background-color:#373f51;    
+    color: #1B1B1E;
+}
+
+#Nav_style {
+    background-color: #58a4b0;
+} 
+
+body {
+    background-color: #A9BCD0;
+    color: #1B1B1E;
+}
+
+#sign_in {
+    background-color: #58A4B0;
+    color: #373F51;
+    font-weight: bold;
+
+}
+footer {
+    background-color: #373F51;
+    color: #D8DBe2;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;   /* Height of the footer */
+}
+
+#h1_nav { 
+    color: #58A4B0;
+    font-weight: bold;
+}
+
+#Welcome_message{
+    background-color: #D8DBe2;
+}
+
+#show_example{
+    background-color: #1b1b1e;
+    color: #D8DBe2;
+}
+
+#tracking{
+    display: inline;
+    padding: 5px;
+    background-color: #58A4B0;
+}
+
+#packages{
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border:1px solid black;
+    padding: 5px;
+}
+
+#packages td, #packages th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+/* Grey every other row */
+#packages tr:nth-child(even){background-color: #f2f2f2;}
+
+/* high lights when hovering */
+#packages tr:hover {background-color: #A9BCD0;}
+
+/* controls the header items */
+#packages th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color:  #58A4B0;
+    color: white;
+}
+ /* Profile tables Css is below */
+#profile_table {
+    color: #373F51;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border:1px solid #373F51;
+    padding: 5px;
+}
+
+/* Invert the profile table */
+#profile_table tr { 
+    display: block; 
+    float: left; 
+}
+
+#profile_table th, #profile_table td { 
+    display: block;  
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#profile_table th {
+    text-align: left;
+    background-color:  #58A4B0;
+    color: white;
+}
+
+form {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

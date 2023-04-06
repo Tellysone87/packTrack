@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Package Tracking{% endblock %}
+
+<!-- Puts button onto the nav bar -->
+{% block button %}<a href ="/profile.html"><i class="bi bi-person"></i>Profile</a>{% endblock %}
+
+
+{% block content %}
+<h4><span>You have {{packages|length}} packages</span></h4><br>
+
+<!-- create table for holding package data -->
+<table id = "packages">
+    <th>Merchant</th><th>Tracking</th><th>Status</th><th>Date Shipped</th><th>Location</th><th>Carrier</th>
+    {% for package in packages %}
+    <tr>
+        <td>{{package.merchant}}</td>
+        <td>{{package.tracking_number}}</td>
+        <td>{{package.status}}</td>
+        <td>{{package.shipped_date}}</td>
+        <td>{{package.location}}</td>
+        <td>{{package.carrier}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+  {% endblock %}
+
+<!-- #prompt user for tracking number -->
+{% block example %}<form id ="tracking" action="/tracking" method="POST">
+    <p>
+        Enter a tracking number: <input type="text" name="tracking">
+        <input type="submit">
+    </p>
+        
+</form>{% endblock %}
