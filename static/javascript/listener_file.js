@@ -5,11 +5,18 @@
 
 // first I will set it up for the homepage submit button.
 // if submit button is pressed, I need the sign in page rendered. 
-const sign_in_button = document.querySelector('#sign_in');
+const reset_link = document.querySelector('#reset');
+const message_area = document.querySelector('p#rmessage');
 
-function redirect_to_signin_page()
+function display_reset_message()
 {
     // window.location
+    message_area.innerHTML="please check your email for reset link"
+    alert('Stop clicking me!');
+
 }
 
-sign_in_button.addEventListener('click', redirect_to_signin_page);
+reset_link.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    display_reset_message()
+});

@@ -25,39 +25,44 @@
         <td>{{user.email}}</td>
     </tr>
 </table>
+
+    <div>
+        <p id="sign_out"><a href="home.html">Sign Out</a></p>
+    </div>
+
 {% endblock %}
 
 {% block example %}
 Update your profile
 
 <form action="/profile" method="POST">
-  
-        <p>
-            First Name <input type="text" name="fname">
-        </p>
-    
-        <p>
-            Last Name <input type="text" name="lname">
-        </p>
-    
-        <p>
-            Street Address <input type="text" name="address">
-        </p>
-    
-        <p>
-            City <input type="text" name="city">
-        </p>
-    
-        <p>
-            State <input type="text" name="state">
-        </p>
-    
-        <p>
-            Email <input type="text" name="email">
-        </p>
-    
-        <p>
-            <button type="submit">Update</button>
-        </p>
-    </form>
+
+    <p>
+        First Name <input type="text" name="fname">
+    </p>
+
+    <p>
+        Last Name <input type="text" name="lname">
+    </p>
+
+    <p>
+        Street Address <input type="text" name="address">
+    </p>
+
+    <p>
+        City <input type="text" name="city">
+    </p>
+
+    <p>
+        State <input type="text" name="state">
+    </p>
+
+    <p>
+        Email <input type="text" name="email">
+    </p>
+
+    <p>
+        <button type="submit">Update</button>
+    </p>
+</form>
 {% endblock %}

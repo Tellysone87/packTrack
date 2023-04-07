@@ -30,6 +30,12 @@ def load_page():
 
     return render_template("home.html")
 
+@app.route('/home.html')
+def load_homepage():
+    """loads the home page """
+
+    return render_template("home.html")
+
 # Below is the route for my log in page.
 @app.route('/login.html')
 def user_sign_in():
@@ -43,23 +49,37 @@ def user_registry():
 
     return render_template("register.html")
 
+def check_empty_fields(field_list):
+    for field in field_list:
+        if field == "":
+            return False
+        else:
+            return True
+
+
 @app.route('/users', methods = ["POST"])
 def register_user():
     """ accepts fields from register page to create new user"""
 
     #grab the fields info
-    fname=request.form.get("fname"),
+    fname=request.form.get("fname")
     lname=request.form.get("lname")
-    address=request.form.get("address"),
-    city=request.form.get("city"),
-    state=request.form.get("state"),
-    email=request.form.get("email"), 
+    address=request.form.get("address")
+    city=request.form.get("city")
+    state=request.form.get("state")
+    email=request.form.get("email")
     password=request.form.get("password")
 
     #sets user to the function to get user by email
     user = crud.get_user_by_email(email)
+    fields = [fname,lname,address,city,state,email,password]
+    print(fields)
 
-    # Chack if user exixts
+    #check if fields are empty
+    if check_empty_fields(fields) == False:
+        flash("All fields are required to make an account. Try again.")
+        return redirect("/register.html")
+    # Check if user exists
     if user:
         flash("A account exists with this email. Cannot create an account with that email. Try again.")
     else:
@@ -67,7 +87,7 @@ def register_user():
         db.session.add(user)
         db.session.commit()
         flash("Account created! Please log in.")
-        
+
     return redirect("/")
 
 @app.route('/login',methods = ["POST"])
@@ -85,7 +105,7 @@ def user_signin():
     if (password == correct_password):
         flash(f"Successfully signed in. Welcome back, {user.fname}!")
         session["user_email"] = user.email
-        return render_template("tracking.html")
+        return redirect("/tracking.html")
     elif not user or password != correct_password:
         flash("Your password or username is incorrect. Try again.")
         return redirect("/login.html")
@@ -132,7 +152,25 @@ def update_profile():
         user.email = email
 
     db.session.commit()
+    flash("Your account has been updated")
     return redirect("profile.html")
+
+@app.route('/reset_password.html')
+def load_reset_password():
+    """render in reset page"""
+    return render_template("reset_password.html")
+
+@app.route('/reset_password', methods = ["POST"])
+def reset_password():
+    """render in reset page"""
+    email=request.form.get("email")
+    user = crud.get_user_by_email(email)
+    if user:
+        flash("Please check your email for the reset link.")
+        return redirect("reset_password.html")
+    else:
+        flash("No account exists with the provided email. Please create an account")
+        return redirect("/login.html")
 
 
 # Creating Flask object to use on our site. 
