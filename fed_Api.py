@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 from pprint import pformat
 import os
 import requests
+from datetime import datetime
 
 
 
@@ -31,21 +32,71 @@ def getBearerAuthorization():
     #return that token for access
     return authorization
 
+
+def get_tracking_info(tracking_number):
 # token is present. no problem getting tokens. 
-auth = getBearerAuthorization()
-token = auth
-print(token)
+    auth = getBearerAuthorization()
+    token = auth
+    info = {}
 
-url = "https://apis-sandbox.fedex.com/track/v1/trackingnumbers"
-trackingNumber = str(394940539699)
+    url = "https://apis-sandbox.fedex.com/track/v1/trackingnumbers"
+    package_to_track = tracking_number
 
-headers = {
-        'Content-Type': "application/json",
-        'Authorization': "Bearer "+token
-        }
+    # sends authorization key
+    headers = {
+            'Content-Type': "application/json",
+            'Authorization': "Bearer "+token
+            }
 
-payload = '{ "trackingInfo": [ { "trackingNumberInfo": { "trackingNumber": "'+trackingNumber+'" } } ], "includeDetailedScans": true }'
-response = requests.post(url, data= payload, headers=headers)
+    # requests info and gets reponse
+    payload = '{ "trackingInfo": [ { "trackingNumberInfo": { "trackingNumber": "'+package_to_track+'" } } ], "includeDetailedScans": true }'
+    response = requests.post(url, data= payload, headers=headers)
 
-print(trackingNumber)
-print(response.text)
+    # grabs tracking number to display
+    trackingNumber = response.json()['output']['completeTrackResults'][0]['trackingNumber']
+
+    #grabs the package shipped
+    dates = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['dateAndTimes']
+
+    for date in dates:
+        if date['type'] == 'SHIP':
+            date_str = date['dateTime'][0:10]
+            # shipped_on = datetime.strptime(date['dateTime'],"%Y-%m-%d") # time object
+    # print(shipped_on)
+    # shipped_on = datetime.date(date_shipped)
+
+    #grabs the delivery status
+    deliveryStatus = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['latestStatusDetail']['description']
+    merchant = ""
+    carrier = "FexEX"
+
+    #gets the last known location
+    city = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['latestStatusDetail']['scanLocation']['city']
+    state = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['latestStatusDetail']['scanLocation']['stateOrProvinceCode']
+    location = f"{city}, {state}"
+
+    # sets values for variables if item was delivered or not
+    if deliveryStatus == "Delivered":
+        recievedByName = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['deliveryDetails']['receivedByName']
+        scanEvent = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['scanEvents'][0]
+        dateDelivered = scanEvent['date'][0:10]
+    else:
+        recievedByName=""
+        dateDelivered=""
+
+    info['tracking'] = trackingNumber
+    info['shipped'] = date_str
+    info['location'] = location
+    info['status'] = deliveryStatus
+    info['merchant'] = ""
+    info['carrier'] = "FedEx"
+
+    # shows key information
+    # print([trackingNumber,date_str,deliveryStatus,recievedByName,dateDelivered,location])
+    # write library to file
+    # write_file = open('Api.json','w')
+    # write_file.write(response.text)
+    # write_file.close()
+    return info
+
+print(get_tracking_info(str(394940539699)))

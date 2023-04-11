@@ -5,6 +5,11 @@
 # I will using flask to handle calls when forms are submitted.
 # Flask responds to web requests by calling functions
 from flask import Flask, render_template, request, flash, session, redirect
+from flask_mail import Mail, Message
+import fed_Api
+from itsdangerous import URLSafeTimedSerializer
+import os
+import requests
 
 # Jinja is a popular template system for Python, used by Flask.
 # we will use this to make a template for each of your webpages. 
@@ -20,6 +25,10 @@ import crud
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
+mail = Mail(app)
+
+#create serializer and give it the app secret key
+s = URLSafeTimedSerializer(app.secret_key)
 
 # We also need to handle routing requests. 
 # Routes tell Flask which URL should correspond with which function. 
@@ -117,11 +126,36 @@ def load_profile_page():
 
     return render_template("profile.html", user = user)
 
+@app.route('/tracking', methods = ['POST'])
+def track_package():
+    package_to_track = request.form.get("tracking")
+    # identify user signed in
+    user = crud.get_user_by_email(session["user_email"])
+    # gets the Fedex api json for the package
+    info = fed_Api.get_tracking_info(package_to_track)
+
+    user_id = user
+    tracking_number = info['tracking']
+    shipped_date = info['shipped']
+    location = info['location']
+    status = info['status']
+    merchant = info['merchant']
+    carrier = info['carrier']
+
+    new_pack = crud.create_package(user_id = user_id.user_id,tracking_number = tracking_number,
+                                   shipped_date = shipped_date,location = location,status = status,
+                                   merchant = merchant,carrier = carrier)
+    db.session.add(new_pack)
+    db.session.commit()
+    return redirect('/tracking.html')
+
+
 @app.route('/tracking.html')
 def load_tracking_page():
     """ renders profile page"""
     user = crud.get_user_by_email(session["user_email"])
     packages = crud.get_packages_by_user(user.user_id)
+    
 
     return render_template("tracking.html",packages = packages)
 
@@ -167,10 +201,23 @@ def reset_password():
     user = crud.get_user_by_email(email)
     if user:
         flash("Please check your email for the reset link.")
+        token = s.dumps(email, salt ='email-confirm') #create the token for user email
+        print("##############################################")
+        print(email)
+        print(token)
         return redirect("reset_password.html")
     else:
         flash("No account exists with the provided email. Please create an account")
         return redirect("/login.html")
+    
+@app.route('/set_password.html/<token>')
+def confirm_email(token):
+    """checks token and lets user reset their password"""
+    print(token)
+    email = s.loads(token, salt='email-confirm', max_age= 3600)
+    print(email)
+
+    return "This is the correct email"
 
 
 # Creating Flask object to use on our site. 
