@@ -6,11 +6,9 @@
 # Flask responds to web requests by calling functions
 from flask import Flask, render_template, request, flash, session, redirect, url_for
 from flask_mail import Mail, Message
-import fed_Api
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import os
 import requests
-import smtplib
 
 # Jinja is a popular template system for Python, used by Flask.
 # we will use this to make a template for each of your webpages.
@@ -20,13 +18,14 @@ from jinja2 import StrictUndefined
 # import db to start connecting to database
 from model import connect_to_db, db
 import crud
+import fed_Api
 
 
 # Creating a object of Flask to use in our site
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
-app.config.from_pyfile('config.cfg')
+app.config.from_pyfile('config.cfg') # imports the mail server info
 mail = Mail(app)
 
 # create serializer and give it the app secret key
@@ -35,15 +34,13 @@ s = URLSafeTimedSerializer(app.secret_key)
 # We also need to handle routing requests.
 # Routes tell Flask which URL should correspond with which function.
 # Below is the route for my homepage.
-
-
 @app.route('/')
 def load_page():
     """loads home page for testing"""
 
     return render_template("home.html")
 
-
+# home.html route. It loads the homepage
 @app.route('/home.html')
 def load_homepage():
     """loads the home page """
@@ -57,14 +54,14 @@ def user_sign_in():
 
     return render_template("login.html")
 
-
+# loads the register page
 @app.route('/register.html')
 def user_registry():
     """ loads register page"""
 
     return render_template("register.html")
 
-
+#helper function to check for empty fields, returned boolean
 def check_empty_fields(field_list):
     """ Checks if any of the list fields are empty"""
     for field in field_list:
@@ -73,7 +70,7 @@ def check_empty_fields(field_list):
         else:
             return True
 
-
+# route to handle form with /users Post method (register.html)
 @app.route('/users', methods=["POST"])
 def register_user():
     """ accepts fields from register page to create new user"""
@@ -89,63 +86,80 @@ def register_user():
 
     # sets user to the function to get user by email
     user = crud.get_user_by_email(email)
-    fields = [fname, lname, address, city, state, email, password]
-    print(fields)
-
+    fields = [fname, lname, address, city, state, email, password] # list of user giving values
+   
     # check if fields are empty
-    if check_empty_fields(fields) == False:
+    if check_empty_fields(fields) == False: #this is our helper fucntion
         flash("All fields are required to make an account. Try again.")
-        return redirect("/register.html")
-    # Check if user exists
+        return redirect("/register.html") # tell user to fill all fields out and redirect
+    
+    # Check if user exists by email before allowing a new account to be created. 
     if user:
         flash("A account exists with this email. Cannot create an account with that email. Try again.")
     else:
-        user = crud.create_user(fname, lname, address,
-                                city, state, email, password)
+    # create that user account by adding that new object instance
+        user = crud.create_user(fname, lname, address, city, state, email, password)
+        # add user to the db session and commit
         db.session.add(user)
         db.session.commit()
-        flash("Account created! Please log in.")
+        flash("Account created! Please log in.") #notify user of new account
 
     return redirect("/")
 
-
+# route to handle form with /login Post method (login.html)
 @app.route('/login', methods=["POST"])
 def user_signin():
     """ Checks to verify users password"""
-    # grabs the field info
+
+    # grabs the fields info
     email = request.form.get("email")
     password = request.form.get("password")
 
     # sets user to the function to get user by email
     user = crud.get_user_by_email(email)
-    correct_password = user.password
-   
-    # condition for password entry
-    if (password == correct_password):
-        flash(f"Successfully signed in. Welcome back, {user.fname}!")
-        session["user_email"] = user.email
-        return redirect("/tracking.html")
-    elif not user or password != correct_password:
-        flash("Your password or username is incorrect. Try again.")
+    
+    #Check if user exist first or the server will error
+    if user:
+        # condition for password entry
+        correct_password = user.password # the correct password is the one in our Databse under the user.
+        if (password == correct_password): # correct password steps
+            flash(f"Successfully signed in. Welcome back, {user.fname}!")
+            session["user_email"] = user.email
+            return redirect("/tracking.html")
+        elif not user or password != correct_password: # incorrect password steps
+            flash("Your password or username is incorrect. Try again.")
+            return redirect("/login.html")
+    # If that user does not exist. Ask the user to try again of create a new account.
+    elif not user:
+        flash("There is no registered user with this email address. Please try again or create an account.")
         return redirect("/login.html")
 
 
+# route to load the profile page with the user info
 @app.route('/profile.html')
 def load_profile_page():
     """ renders profile page for the logged in User"""
-    user = crud.get_user_by_email(session["user_email"])
+    user = crud.get_user_by_email(session["user_email"]) #grabs user from the cookie session
+    print(user)
 
-    return render_template("profile.html", user=user)
+    return render_template("/profile.html",user=user) # render profile and pass that user object
 
-
+# route to handle form with /tracking Post method (tracking.html)
 @app.route('/tracking', methods=['POST'])
 def track_package():
     """ Creates new package record with the tracking number provided"""
+    
+    #grab the tracking number submitted by signed in user
     package_to_track = request.form.get("tracking")
     # identify user signed in
     user = crud.get_user_by_email(session["user_email"])
-    # gets the Fedex api json for the package
-    info = fed_Api.get_tracking_info(package_to_track)
+
+    # gets the Fedex api json for the package by calling fed_Api function
+    try: # try to track if not return message
+     info = fed_Api.get_tracking_info(package_to_track) # returns library
+    except KeyError: 
+        flash(f'We are not able to track package number {package_to_track} at this time.')
+        return redirect('/tracking.html')
 
     # grabs the information needed from the api library I created
     user_id = user
@@ -156,27 +170,30 @@ def track_package():
     merchant = info['merchant']
     carrier = info['carrier']
 
-    # Takes those values and adds them to the create package methods arguements
+    # Takes those values and adds them to the create package methods arguments
     new_pack = crud.create_package(user_id=user_id.user_id, tracking_number=tracking_number,
                                    shipped_date=shipped_date, location=location, status=status,
                                    merchant=merchant, carrier=carrier)
 
-    # add the package record
+    # add the package record to database
     db.session.add(new_pack)
     db.session.commit()
     # redirects with new package added
     return redirect('/tracking.html')
 
-
+# route to display tracking page
 @app.route('/tracking.html')
 def load_tracking_page():
     """ renders profile page"""
+
+    # grab user signed in
     user = crud.get_user_by_email(session["user_email"])
+    # grab all packages connected to that user
     packages = crud.get_packages_by_user(user.user_id)
 
-    return render_template("tracking.html", packages=packages)
+    return render_template("tracking.html", packages=packages) #return trackage with the packages
 
-
+# route to handle form with /profile Post method (profile.html). TO ADD- prompt to ensure user wants to change profile fields
 @app.route('/profile', methods=["POST"])
 def update_profile():
     # set the user at top
@@ -190,84 +207,85 @@ def update_profile():
     state = request.form.get("state")
     email = request.form.get("email")
 
+    # the field is updated where the user adds a new value
     if fname != "":
         user.fname = fname
-    if lname != "":
+    elif lname != "":
         user.lname = lname
-    if address != "":
+    elif address != "":
         user.address = address
-    if city != "":
+    elif city != "":
         user.city = city
-    if state != "":
+    elif state != "":
         user.state = state
-    if email != "":
+    elif email != "":
         user.email = email
 
-    db.session.commit()
+    db.session.commit() # commit those changes. 
+    session["user_email"] = user.email #reset the new email as the users in session now
     flash("Your account has been updated")
-    return redirect("/profile.html")
+    return redirect("/profile.html") # redirect and show changes. 
 
-
+# route to display reset password page
 @app.route('/reset_password.html')
 def load_reset_password():
     """render in reset page"""
     return render_template("reset_password.html")
 
+# route to handle form with /reset_password Post method (reset_password.html). This also
+# creates and send the email security token to the users email. TO ADD - make the email and link look better
 @app.route('/reset_password', methods=["POST"])
 def reset_password():
     """render in reset page"""
+
+    # grab the email submitted
     email = request.form.get("email")
-    user = crud.get_user_by_email(email)
+    user = crud.get_user_by_email(email) # sets the email to user if user exists
+
+    #if user, set the email as a secret token and prompt user to check their email for link
     if user:
         flash("Please check your email for the reset link.")
-        # create the token for user email
-        token = s.dumps(email, salt='reset_email_link')
-        # print("##############################################")
-        # print(email)
-        # print(token
+        token = s.dumps(email, salt='reset_email_link') # create the token for user email
         msg = Message('Click here to reset your password',
-                      sender='superstaris2020@gmail.com', recipients=[email])
-        link = url_for('reset_email_link', token=token, _external=True)
-        msg.body = 'Your link is {}'.format(link)
-        mail.send(msg)
+                      sender='superstaris2020@gmail.com', recipients=[email]) # set the message to send, my email, and the users email
+        link = url_for('reset_email_link', token=token, _external=True) # link with email token and it is outside our app thus external
+        msg.body = 'Your link is {}'.format(link) # email body with link. 
+        mail.send(msg) # Send email 
 
-        # message = '<p>click here to reset your password.</p>'
-        # server = smtplib.SMTP_SSL("smtp.gmail.com",465)
-        # server.starttls()
-        # server.login(gmail, gmail_password)
-        # server.sendmail(gmail,email,message)
         return redirect("reset_password.html")
     else:
         flash("No account exists with the provided email. Please create an account")
         return redirect("/login.html")
 
-
+# route for getting that toekn form the email and checking if it is correct before 
+# directing user to set their new password. TO ADD have the errors load back to the reset page with alerts
 @app.route('/set_password.html/<token>')
 def reset_email_link(token):
     """checks token and lets user reset their password"""
-    print(token)
-    # catch if the kin is expire or token is not correct
+
+    # catch if the link is expire or token is not correct
     try:
         email = s.loads(token, salt='reset_email_link', max_age=4600)
-    except SignatureExpired:
+    except SignatureExpired: # Expired
         return '<h1> Your link has expired</h1>'
-    except BadTimeSignature:
+    except BadTimeSignature: # Token link not correct
         return '<h1> You are not the correct user</h1>'
-
-    print(email)
     # if it is correct display this
     return render_template('/set_password.html', email = email )
 
-
+# route for displaying set password page. 
 @app.route('/set_password.html')
 def set_new_password():
     """allows the user to reset their passwork with form"""
     
     return render_template('/set_password.html')
 
+# route to handle form with /set_new_password Post method (set_password.html).
 @app.route('/set_new_password', methods =['POST'])
 def grab_password_value():
     """Grabs and set the new password value"""
+
+    #get form date. If this page is loaded the user must have clicked the email token link in time.
     email = request.form.get("email")
     password = request.form.get("password")
     new_password = request.form.get("new_password")
@@ -275,14 +293,16 @@ def grab_password_value():
     #set the user that needs the password updated
     user = crud.get_user_by_email(email)
     if user:
-        if password == new_password:
-            user.password = password
-            db.session.commit()
+        if password == new_password: # if email is confirmed 
+            user.password = password # set new password
+            db.session.commit() # commit change to database
             flash("Your password has been reset. Please log in. ")
-            return redirect("/login.html")
-        elif password != new_password:
+            return redirect("/login.html") # redirect user to now sign in
+        
+        elif password != new_password: # if passwords don't match, ask the user to try again
             flash("Your passwords do not match. You must confirm your password.")
             return redirect('/set_password.html')
+    #if the user puts in wrong email redirect and ask them to try again 
     elif not user:
         flash("Your email is incorrect, please try again.")
         return redirect('/set_password.html')

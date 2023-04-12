@@ -1,4 +1,17 @@
-"""Models for PackTrack app."""
+"""Models for PackTrack app. This python fields contain the model for my packTrack dataBase.
+
+Classes included: User, Package, Status, Item
+
+Tables included: users, packages, statuses, items
+
+Table Relationships: User had many packages, Packages has one User
+                     Package has many Statuses, Statuses has one Package
+                     Package has many Itmes, Itmes are contained in one Package
+
+MVP model conatins User and Package classes. 
+2.0 will utilize Status and Item classes.
+
+"""
 ## Import flask for using sqlAchemy
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -11,7 +24,7 @@ class User(db.Model):
     """ The User"""
     __tablename__ = "users" # tables name
 
-    # Setting the tables fields
+    # Setting the tables fields and type.
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True,  nullable=False)
     fname = db.Column(db.String(25), nullable=False)
     lname =db.Column(db.String(25), nullable=False)
@@ -33,7 +46,7 @@ class Package(db.Model):
     """ The Packages per user"""
     __tablename__ = "packages" # tables name
 
-    # Setting the tables fields
+    # Setting the tables fields and type
     package_id = db.Column(db.Integer, autoincrement=True, primary_key=True,  nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False) #foreign key to users
     tracking_number= db.Column(db.String(100), nullable=False)
