@@ -51,8 +51,6 @@ def load_homepage():
     return render_template("home.html")
 
 # Below is the route for my log in page.
-
-
 @app.route('/login.html')
 def user_sign_in():
     """ loads sign in page"""
@@ -116,15 +114,12 @@ def user_signin():
     """ Checks to verify users password"""
     # grabs the field info
     email = request.form.get("email")
-    print(email)
     password = request.form.get("password")
 
     # sets user to the function to get user by email
     user = crud.get_user_by_email(email)
     correct_password = user.password
-    print(email)
-    print(password)
-
+   
     # condition for password entry
     if (password == correct_password):
         flash(f"Successfully signed in. Welcome back, {user.fname}!")
@@ -218,10 +213,6 @@ def load_reset_password():
     """render in reset page"""
     return render_template("reset_password.html")
 
-# def send_email_token(token):
-    print("token")
-
-
 @app.route('/reset_password', methods=["POST"])
 def reset_password():
     """render in reset page"""
@@ -257,7 +248,7 @@ def reset_email_link(token):
     print(token)
     # catch if the kin is expire or token is not correct
     try:
-        email = s.loads(token, salt='reset_email_link', max_age=3600)
+        email = s.loads(token, salt='reset_email_link', max_age=4600)
     except SignatureExpired:
         return '<h1> Your link has expired</h1>'
     except BadTimeSignature:
@@ -265,13 +256,36 @@ def reset_email_link(token):
 
     print(email)
     # if it is correct display this
-    return render_template('/set_password.html')
+    return render_template('/set_password.html', email = email )
 
 
 @app.route('/set_password.html')
 def set_new_password():
-    """allows the user to reset their passwork"""
+    """allows the user to reset their passwork with form"""
+    
     return render_template('/set_password.html')
+
+@app.route('/set_new_password', methods =['POST'])
+def grab_password_value():
+    """Grabs and set the new password value"""
+    email = request.form.get("email")
+    password = request.form.get("password")
+    new_password = request.form.get("new_password")
+
+    #set the user that needs the password updated
+    user = crud.get_user_by_email(email)
+    if user:
+        if password == new_password:
+            user.password = password
+            db.session.commit()
+            flash("Your password has been reset. Please log in. ")
+            return redirect("/login.html")
+        elif password != new_password:
+            flash("Your passwords do not match. You must confirm your password.")
+            return redirect('/set_password.html')
+    elif not user:
+        flash("Your email is incorrect, please try again.")
+        return redirect('/set_password.html')
 
 
 # Creating Flask object to use on our site.
