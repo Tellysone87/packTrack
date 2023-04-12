@@ -4,8 +4,9 @@ from pprint import pformat
 import os
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
 
-
+load_dotenv() # take environment variables from .env.
 
 def getBearerAuthorization():
     """ This function gets authorization to the fed ex api"""
@@ -88,8 +89,8 @@ def get_tracking_info(tracking_number):
     info['shipped'] = date_str
     info['location'] = location
     info['status'] = deliveryStatus
-    info['merchant'] = ""
-    info['carrier'] = "FedEx"
+    info['merchant'] = merchant
+    info['carrier'] = carrier
 
     # shows key information
     # print([trackingNumber,date_str,deliveryStatus,recievedByName,dateDelivered,location])
@@ -98,5 +99,3 @@ def get_tracking_info(tracking_number):
     # write_file.write(response.text)
     # write_file.close()
     return info
-
-print(get_tracking_info(str(394940539699)))

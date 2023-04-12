@@ -3,3 +3,4 @@ env
 secret.sh
 FedEx_search.py
 __pycache__
+config.cfg
