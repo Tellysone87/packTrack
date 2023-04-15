@@ -10,17 +10,17 @@
 <h4><span>You have {{packages|length}} packages</span></h4><br>
 
 <!-- create table for holding package data -->
-<table id = "packages">
-    <th>Merchant</th><th>Tracking</th><th>Status</th><th>Date Shipped</th><th>Location</th><th>Carrier</th>
+<table id="packages">
+    <th>Tracking</th><th>Status</th><th>Date Shipped</th><th>Location</th><th>Carrier</th>
     {% for package in packages %}
     <tr>
-        <td>{{package.merchant}}</td>
         <td>{{package.tracking_number}}</td>
         <td>{{package.status}}</td>
         <td>{{package.shipped_date}}</td>
         <td>{{package.location}}</td>
         <td>{{package.carrier}}</td>
     </tr>
+    <button id="more_info">Click</button>
     {% endfor %}
 </table>
 
@@ -34,3 +34,5 @@
     </p>
         
 </form>{% endblock %}
+
+{% block script %}<script src="/static/javascript/listener_file.js"></script>{% endblock %}

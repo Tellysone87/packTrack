@@ -133,8 +133,7 @@ def user_signin():
     elif not user:
         flash("There is no registered user with this email address. Please try again or create an account.")
         return redirect("/login.html")
-
-
+      
 # route to load the profile page with the user info
 @app.route('/profile.html')
 def load_profile_page():
@@ -169,6 +168,7 @@ def track_package():
     status = info['status']
     merchant = info['merchant']
     carrier = info['carrier']
+    
 
     # Takes those values and adds them to the create package methods arguments
     new_pack = crud.create_package(user_id=user_id.user_id, tracking_number=tracking_number,
@@ -178,8 +178,41 @@ def track_package():
     # add the package record to database
     db.session.add(new_pack)
     db.session.commit()
+
+    # call the load history helper function once package is created to grab that tracking number.
+    load_all_package_history(tracking_number)
+
     # redirects with new package added
     return redirect('/tracking.html')
+
+# function to populate statuses table based per package. It will be called
+# in the tracing Post route. 
+def load_all_package_history(tracking_number):
+    """ helper function to add histry to the statuses table"""
+    # store the package Statuses as well
+    history = fed_Api.get_events_info(tracking_number) # list of package status update
+    print(history)
+    
+    # loop through through each status and add it as a new status record using the same package id and commit the changes.
+    for new_status in history.values():
+        #grab the fields out of the library
+        package = crud.get_package_by_tracking(tracking_number) # set the statuses to the correct package
+        new_status['track'] = package
+        new_stat = crud.create_status(package_id = new_status.get('track'), status = new_status.get('event'), date = new_status.get('date'))
+        db.session.add(new_stat)
+        db.session.commit()
+
+@app.route('/history', methods = ['POST'])
+def send_ajax_history():
+
+    # grab the tracking number from row submitted
+    track_pack = request.json.get("track_pack")
+
+    #get the package id to pull statuses
+    history = fed_Api.get_events_info(track_pack)
+    
+    return history
+    
 
 # route to display tracking page
 @app.route('/tracking.html')
@@ -233,18 +266,19 @@ def load_reset_password():
     return render_template("reset_password.html")
 
 # route to handle form with /reset_password Post method (reset_password.html). This also
-# creates and send the email security token to the users email. TO ADD - make the email and link look better
+# creates and send the email security token to the users email. 
+# TO ADD - make the email and link look better
+# TO ADD - add a link back to the register page
 @app.route('/reset_password', methods=["POST"])
 def reset_password():
     """render in reset page"""
 
     # grab the email submitted
-    email = request.form.get("email")
+    email = request.json.get("email")
     user = crud.get_user_by_email(email) # sets the email to user if user exists
-
+    
     #if user, set the email as a secret token and prompt user to check their email for link
     if user:
-        flash("Please check your email for the reset link.")
         token = s.dumps(email, salt='reset_email_link') # create the token for user email
         msg = Message('Click here to reset your password',
                       sender='superstaris2020@gmail.com', recipients=[email]) # set the message to send, my email, and the users email
@@ -252,10 +286,9 @@ def reset_password():
         msg.body = 'Your link is {}'.format(link) # email body with link. 
         mail.send(msg) # Send email 
 
-        return redirect("reset_password.html")
+        return {"current_user": True}
     else:
-        flash("No account exists with the provided email. Please create an account")
-        return redirect("/login.html")
+        return {"current_user": False}
 
 # route for getting that toekn form the email and checking if it is correct before 
 # directing user to set their new password. TO ADD have the errors load back to the reset page with alerts

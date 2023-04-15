@@ -90,11 +90,15 @@ def get_packages_by_user(user_id):
     # loop to grab each package and add to the empty array
     for package in tracked_package:
         package_list.append(package)
-        print(
-            f"Your tracking number is {package.tracking_number} and it is {package.status}.")
 
     return package_list  # return the list of packages
 
+def get_package_by_tracking(trackingNumber):
+    """ returns the package based on its tracking number"""
+
+    pack = Package.query.filter(Package.tracking_number == trackingNumber).first()
+
+    return pack.package_id
 
 def status_by_package(package_id):
     """ returns the past statuses of a package"""

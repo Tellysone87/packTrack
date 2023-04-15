@@ -97,3 +97,57 @@ def get_tracking_info(tracking_number):
     info['carrier'] = carrier
 
     return info #return my library for creating the package object instance
+
+
+def get_events_info(tracking_number):
+# auth contains the authorization token returned from the function getBearerAuthorization()
+    auth = getBearerAuthorization()
+    token = auth # Token to make requests to the FedEx Api
+    history = {} # setting an empty library to create my own library based on the data I need pulled from the requests json
+    url = "https://apis-sandbox.fedex.com/track/v1/trackingnumbers" # url for the tracking library
+    package_to_track = tracking_number # this grabs the tracking number passed by the user in the server on tracking.html as the argument
+
+    # sends authorization key
+    headers = {
+            'Content-Type': "application/json", # type of string we want back 
+            'Authorization': "Bearer "+token # Account/App authorization
+            }
+
+    # requests info and gets reponse. We passed the giving tracking number to the api and it returns the info for that package
+    payload = '{ "trackingInfo": [ { "trackingNumberInfo": { "trackingNumber": "'+package_to_track+'" } } ], "includeDetailedScans": true }'
+    response = requests.post(url, data= payload, headers=headers) # json based on that tracking number
+
+    # grabs tracking number to display
+    # trackingNumber = response.json()['output']['completeTrackResults'][0]['trackingNumber']
+
+    #grabs the delivery status
+    events_statuses = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['scanEvents']
+    event_num = 0
+    #loop through each event and grab the data
+    for events in events_statuses:
+
+        # set the values for the dictionary values
+        date = events['date'][0:10]
+        event = events['eventDescription']
+        city_location = events['scanLocation'].get('city')
+        state_location = events['scanLocation'].get('stateOrProvinceCode')
+
+        #create new empty dictionary and add values
+        events_library = {}
+        events_library['track'] = package_to_track
+        events_library['date'] = date
+        events_library['event'] = event
+        events_library['location'] = f'{city_location}, {state_location}'
+
+        # condition if the location is None
+        if events_library['location'] == 'None, None':
+            events_library['location'] = 'Unknown'
+        
+    
+        # Add the dictionary to my history dictionary
+        history[event_num] = events_library
+        event_num +=1   # increment the key value
+
+    return history # retunn the history library 
+
+  
