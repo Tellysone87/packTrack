@@ -11,18 +11,26 @@
 
 <!-- create table for holding package data -->
 <table id="packages">
-    <th>Tracking</th><th>Status</th><th>Date Shipped</th><th>Location</th><th>Carrier</th>
+    <th>Tracking</th><th>Status</th><th>Date Shipped</th><th>Location</th><th>Carrier</th><th>history</th>
     {% for package in packages %}
     <tr>
-        <td>{{package.tracking_number}}</td>
+        <td id = "track_num">{{package.tracking_number}}</td>
         <td>{{package.status}}</td>
         <td>{{package.shipped_date}}</td>
         <td>{{package.location}}</td>
         <td>{{package.carrier}}</td>
+        <td><button id="`more_info">Click</button></td>
     </tr>
-    <button id="more_info">Click</button>
     {% endfor %}
 </table>
+
+
+<!-- Create a new table to display all status updates on click -->
+<Table id ="history_tab">
+    <th id="dates">Dates</th>
+    <th id="events">Events</th>
+    <th id ="locations">Locations</th>
+</Table>
 
   {% endblock %}
 
@@ -35,4 +43,4 @@
         
 </form>{% endblock %}
 
-{% block script %}<script src="/static/javascript/listener_file.js"></script>{% endblock %}
+{% block script %}<script src="/static/javascript/more_info.js"></script>{% endblock %}

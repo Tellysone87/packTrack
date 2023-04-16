@@ -115,3 +115,33 @@ form {
 a {
     text-decoration: none ;
 }
+
+/* Css for the history ajax table */
+
+#history_tab {
+    color: #373F51;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border:1px solid #373F51;
+    padding: 5px;
+    visibility: hidden;
+}
+
+#history_tab th{
+    text-align: left;
+    background-color:  white;
+    color:#58A4B0;
+}
+
+#history_tab td, #history_tab th {
+    border: 1px solid #201b1b;
+    padding: 8px;
+}
+
+#history_tab th {
+    text-align: left;
+    background-color:  #58A4B0;
+    color: white;
+}
+

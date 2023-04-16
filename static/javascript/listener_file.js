@@ -7,7 +7,7 @@
 const reset_link = document.querySelector('#reset');
 const track_area = document.querySelector('#track_num');
 const table = document.querySelector('#packages');
-alert('here');
+
 
 //  function for event listener when the user submits a email
 document.querySelector('#reset').addEventListener('submit', (evt) => {
@@ -38,39 +38,9 @@ document.querySelector('#reset').addEventListener('submit', (evt) => {
                 message_area.remove();
             };
             if (responseJson.current_user === false){
-                message_area.innerHTML = "This email is not registered with an account. Please try again"
+                message_area.innerHTML = "This email is not registered with an account. Please try again";
                 
             };
     });
 });
 
-// document.querySelector('#more_info').addEventListener('click', (evt) => {
-//     evt.preventDefault();
-
-//     const formInputs = {
-
-//         track_pack: document.querySelector('#track_num').innerHTML
-
-//     };
-
-//     fetch('/history', {
-//         method: 'POST',
-//         body: JSON.stringify(formInputs),
-//         headers: {
-//         'Content-Type': 'application/json',
-//         },
-//     })
-//         .then((response) => response.json())
-//         .then((responseJson) => {
-//             alert(responseJson.text)
-           
-//     });
-// });
-
-const button = document.querySelector("#more_info");
-
-const handleClick = () => {
-    alert('More info button!');
-  };
-  
-button.addEventListener('click',handleClick);

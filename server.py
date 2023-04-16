@@ -4,7 +4,7 @@
 # Flask is a web framework used to repsond to requests.
 # I will using flask to handle calls when forms are submitted.
 # Flask responds to web requests by calling functions
-from flask import Flask, render_template, request, flash, session, redirect, url_for
+from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify , json
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import os
@@ -207,11 +207,15 @@ def send_ajax_history():
 
     # grab the tracking number from row submitted
     track_pack = request.json.get("track_pack")
+    print(track_pack)
 
     #get the package id to pull statuses
     history = fed_Api.get_events_info(track_pack)
+    print(history)
+    status = jsonify(history)
+    print(status)
     
-    return history
+    return status
     
 
 # route to display tracking page
