@@ -42,9 +42,8 @@ footer {
 }
 
 #tracking{
-    display: inline;
-    padding: 5px;
     background-color: #58A4B0;
+    color: #1b1b1e;
 }
 
 #packages{
@@ -53,6 +52,7 @@ footer {
     width: 100%;
     border:1px solid black;
     padding: 5px;
+    
 }
 
 #packages td, #packages th {
@@ -118,30 +118,41 @@ a {
 
 /* Css for the history ajax table */
 
-#history_tab {
-    color: #373F51;
+#history_tab{
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
-    border:1px solid #373F51;
+    border:1px solid black;
     padding: 5px;
     visibility: hidden;
+    
 }
 
-#history_tab th{
-    text-align: left;
-    background-color:  white;
-    color:#58A4B0;
+.overflow-auto {
+    max-width: 400px;
+    max-height: 350px;
+}
+
+#pack_scroll{
+    max-width: 700px;
+    max-height: 400px;
 }
 
 #history_tab td, #history_tab th {
-    border: 1px solid #201b1b;
+    border: 1px solid #ddd;
     padding: 8px;
 }
 
+/* Grey every other row */
+#history_tab tr:nth-child(even){background-color: #f2f2f2;}
+
+/* high lights when hovering */
+#history_tab tr:hover {background-color: #A9BCD0;}
+
+/* controls the header items */
 #history_tab th {
+    padding-top: 12px;
+    padding-bottom: 12px;
     text-align: left;
     background-color:  #58A4B0;
-    color: white;
-}
-
+    color: white;}

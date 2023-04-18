@@ -3,44 +3,57 @@
 {% block title %}Package Tracking{% endblock %}
 
 <!-- Puts button onto the nav bar -->
-{% block button %}<a href ="/profile.html"><i class="bi bi-person"></i>Profile</a>{% endblock %}
+{% block button %}<a href="/profile.html"><i class="bi bi-person"></i>Profile</a>{% endblock %}
 
 
 {% block content %}
 <h4><span>You have {{packages|length}} packages</span></h4><br>
 
 <!-- create table for holding package data -->
-<table id="packages">
-    <th>Tracking</th><th>Status</th><th>Date Shipped</th><th>Location</th><th>Carrier</th><th>history</th>
-    {% for package in packages %}
-    <tr>
-        <td id = "track_num">{{package.tracking_number}}</td>
-        <td>{{package.status}}</td>
-        <td>{{package.shipped_date}}</td>
-        <td>{{package.location}}</td>
-        <td>{{package.carrier}}</td>
-        <td><button id="`more_info">Click</button></td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="overflow-auto" id="pack_scroll">
+    <table id="packages">
+        <th>Tracking</th>
+        <th>Status</th>
+        <th>Date Shipped</th>
+        <th>Location</th>
+        <th>Carrier</th>
+        <th>history</th>
+        {% for package in packages %}
+        <tr>
+            <td id="track_num">{{package.tracking_number}}</td>
+            <td>{{package.status}}</td>
+            <td>{{package.shipped_date.strftime('%m-%d-%Y')}}</td>
+            <td>{{package.location}}</td>
+            <td>{{package.carrier}}</td>
+            <td><button id="more_info" data-tracking="{{package.tracking_number}}">Click</button></td>
+        </tr>
 
+        {% endfor %}
+    </table>
+</div>
 
-<!-- Create a new table to display all status updates on click -->
-<Table id ="history_tab">
-    <th id="dates">Dates</th>
-    <th id="events">Events</th>
-    <th id ="locations">Locations</th>
-</Table>
-
-  {% endblock %}
+{% endblock %}
 
 <!-- #prompt user for tracking number -->
-{% block example %}<form id ="tracking" action="/tracking" method="POST">
-    <p>
-        Enter a tracking number: <input type="text" name="tracking">
-        <input type="submit">
-    </p>
-        
-</form>{% endblock %}
+{% block example %}
+<div class="row">
+    <form class="col-12" id="tracking" action="/tracking" method="POST">
+        <p>
+            Enter a tracking number: <input type="text" name="tracking">
+            <input type="submit">
+        </p>
+    </form>
+</div>
 
-{% block script %}<script src="/static/javascript/more_info.js"></script>{% endblock %}
+<!-- Create a new table to display all status updates on click -->
+<div class="row">
+    <div class="overflow-auto">
+        <Table class="col-12" id="history_tab">
+            
+        </Table>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/static/javascript/more_info.js"></script>{% endblock %}

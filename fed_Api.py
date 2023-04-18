@@ -79,7 +79,7 @@ def get_tracking_info(tracking_number):
 
     # Only using FedEx api for now and the merchant is not available. I am setting default values for now
     merchant = ""
-    carrier = "FexEX"
+    carrier = "FedEx"
 
     #gets the last known location
     city = response.json()['output']['completeTrackResults'][0]['trackResults'][0]['latestStatusDetail']['scanLocation']['city']

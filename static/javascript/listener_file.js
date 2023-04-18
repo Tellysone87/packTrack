@@ -4,9 +4,10 @@
 // or prompts and then call the specified function.
 // first I will set it up for the homepage submit button.
 // if submit button is pressed, I the user prompted to check their email. 
-const reset_link = document.querySelector('#reset');
+const reset_link = document.querySelector('#reset_message');
 const track_area = document.querySelector('#track_num');
 const table = document.querySelector('#packages');
+const message_area= document.querySelector("#rmessage")
 
 
 //  function for event listener when the user submits a email
@@ -33,14 +34,16 @@ document.querySelector('#reset').addEventListener('submit', (evt) => {
         /* Grab the response as a josn and use that data for my condition */
         .then((response) => response.json())
         .then((responseJson) => {
-            if (responseJson.current_user === true){
+
+            if(responseJson.current_user === true){
                 reset_link.innerHTML= "please check your email for reset link";
                 message_area.remove();
-            };
-            if (responseJson.current_user === false){
+            }
+
+            else if(responseJson.current_user === false){
                 message_area.innerHTML = "This email is not registered with an account. Please try again";
                 
-            };
+            }
     });
 });
 

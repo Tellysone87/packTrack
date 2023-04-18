@@ -19,6 +19,8 @@ from jinja2 import StrictUndefined
 from model import connect_to_db, db
 import crud
 import fed_Api
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
 
 
 # Creating a object of Flask to use in our site
@@ -38,14 +40,26 @@ s = URLSafeTimedSerializer(app.secret_key)
 def load_page():
     """loads home page for testing"""
 
-    return render_template("home.html")
+    return render_template("home.html/")
 
 # home.html route. It loads the homepage
 @app.route('/home.html')
-def load_homepage():
+def load_home():
     """loads the home page """
-
     return render_template("home.html")
+
+# home.html route. It loads the homepage
+@app.route('/home.html/<status>')
+def load_homepage(status):
+    """loads the home page """
+    # removs the users email whenever the home pag is loaded
+    if status =="signed_out":
+        del session['user_email']
+        return redirect("/home.html")
+    
+    # catch if someone hits the back button
+    elif not session['user_email']:
+        return redirect("/home.html")
 
 # Below is the route for my log in page.
 @app.route('/login.html')
@@ -76,17 +90,18 @@ def register_user():
     """ accepts fields from register page to create new user"""
 
     # grab the fields info
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-    address = request.form.get("address")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    email = request.form.get("email")
-    password = request.form.get("password")
+    fname = request.form.get("fname").strip
+    lname = request.form.get("lname").strip
+    address = request.form.get("address").strip
+    city = request.form.get("city").strip
+    state = request.form.get("state").strip
+    email = request.form.get("email").strip
+    password = request.form.get("password").strip
 
     # sets user to the function to get user by email
     user = crud.get_user_by_email(email)
-    fields = [fname, lname, address, city, state, email, password] # list of user giving values
+    fields = [fname, lname, address, city, state, email, password]
+    # list of user giving values
    
     # check if fields are empty
     if check_empty_fields(fields) == False: #this is our helper fucntion
@@ -112,8 +127,8 @@ def user_signin():
     """ Checks to verify users password"""
 
     # grabs the fields info
-    email = request.form.get("email")
-    password = request.form.get("password")
+    email = request.form.get("email").strip
+    password = request.form.get("password").strip
 
     # sets user to the function to get user by email
     user = crud.get_user_by_email(email)
@@ -138,10 +153,14 @@ def user_signin():
 @app.route('/profile.html')
 def load_profile_page():
     """ renders profile page for the logged in User"""
-    user = crud.get_user_by_email(session["user_email"]) #grabs user from the cookie session
-    print(user)
+    if 'user_email' in session:
+        user = crud.get_user_by_email(session["user_email"]) #grabs user from the cookie session
+        print(user)
 
-    return render_template("/profile.html",user=user) # render profile and pass that user object
+        return render_template("/profile.html",user=user) # render profile and pass that user object
+    else:
+        flash("Please login to view this page.")
+        return redirect("login.html")
 
 # route to handle form with /tracking Post method (tracking.html)
 @app.route('/tracking', methods=['POST'])
@@ -149,7 +168,7 @@ def track_package():
     """ Creates new package record with the tracking number provided"""
     
     #grab the tracking number submitted by signed in user
-    package_to_track = request.form.get("tracking")
+    package_to_track = request.form.get("tracking").strip
     # identify user signed in
     user = crud.get_user_by_email(session["user_email"])
 
@@ -222,13 +241,18 @@ def send_ajax_history():
 @app.route('/tracking.html')
 def load_tracking_page():
     """ renders profile page"""
+    
+    # check if the user is signed in
+    if 'user_email' in session:
+        # grab user signed in
+        user = crud.get_user_by_email(session["user_email"])
+        # grab all packages connected to that user
+        packages = crud.get_packages_by_user(user.user_id)
 
-    # grab user signed in
-    user = crud.get_user_by_email(session["user_email"])
-    # grab all packages connected to that user
-    packages = crud.get_packages_by_user(user.user_id)
-
-    return render_template("tracking.html", packages=packages) #return trackage with the packages
+        return render_template("tracking.html", packages=packages) #return trackage with the packages
+    else:
+        flash("Please sign in or make a account to view this page.")
+        return redirect('/login.html')
 
 # route to handle form with /profile Post method (profile.html). TO ADD- prompt to ensure user wants to change profile fields
 @app.route('/profile', methods=["POST"])
@@ -237,12 +261,12 @@ def update_profile():
     user = crud.get_user_by_email(session["user_email"])
 
     # grab the fields info
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-    address = request.form.get("address")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    email = request.form.get("email")
+    fname = request.form.get("fname").strip
+    lname = request.form.get("lname").strip
+    address = request.form.get("address").strip
+    city = request.form.get("city").strip
+    state = request.form.get("state").strip
+    email = request.form.get("email").strip
 
     # the field is updated where the user adds a new value
     if fname != "":
@@ -289,9 +313,10 @@ def reset_password():
         link = url_for('reset_email_link', token=token, _external=True) # link with email token and it is outside our app thus external
         msg.body = 'Your link is {}'.format(link) # email body with link. 
         mail.send(msg) # Send email 
-
+        print("yes")
         return {"current_user": True}
     else:
+        print("nope")
         return {"current_user": False}
 
 # route for getting that toekn form the email and checking if it is correct before 
@@ -323,9 +348,9 @@ def grab_password_value():
     """Grabs and set the new password value"""
 
     #get form date. If this page is loaded the user must have clicked the email token link in time.
-    email = request.form.get("email")
-    password = request.form.get("password")
-    new_password = request.form.get("new_password")
+    email = request.form.get("email").strip
+    password = request.form.get("password").strip
+    new_password = request.form.get("new_password").strip
 
     #set the user that needs the password updated
     user = crud.get_user_by_email(email)
