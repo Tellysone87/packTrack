@@ -143,6 +143,7 @@ CREATE TABLE public.users (
     address character varying(50) NOT NULL,
     city character varying(25) NOT NULL,
     state character varying(25) NOT NULL,
+    zipcode integer NOT NULL,
     email character varying(50) NOT NULL,
     password character varying(50) NOT NULL
 );
@@ -205,9 +206,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 --
 
 COPY public.items (item_id, package_id, quantity, name) FROM stdin;
-1	1	3	gym shoes
-2	1	3	gym shoes
-3	2	2	skinny Jeans
 \.
 
 
@@ -216,9 +214,6 @@ COPY public.items (item_id, package_id, quantity, name) FROM stdin;
 --
 
 COPY public.packages (package_id, user_id, tracking_number, shipped_date, location, status, merchant, carrier) FROM stdin;
-1	1	3456776gfddww	2023-04-04 15:53:12.718322	picked up by truck	in route	Torrid	UPS
-2	1	3456776gfddww	2023-04-05 11:52:27.305294	picked up by truck	in route	Torrid	UPS
-3	2	344454dfgfg23	2022-12-01 00:00:00	Detroit	en route	Macys	FedEx
 \.
 
 
@@ -227,8 +222,6 @@ COPY public.packages (package_id, user_id, tracking_number, shipped_date, locati
 --
 
 COPY public.statuses (status_id, package_id, status, date) FROM stdin;
-1	1	delivered	2023-04-04 15:58:59.142987
-2	2	en route	2022-12-01 00:00:00
 \.
 
 
@@ -236,10 +229,7 @@ COPY public.statuses (status_id, package_id, status, date) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: tellysone
 --
 
-COPY public.users (user_id, fname, lname, address, city, state, email, password) FROM stdin;
-1	sue	smith	456 log	Detroit	Michigan	server@aol.com	123456
-3	rob	Smith	2300 Jackson	Gary	Indiana	realone@go.com	weryone
-2	John	Smith	234 lane	Southfield	MD	wellis@gmail.com	firstlove12
+COPY public.users (user_id, fname, lname, address, city, state, zipcode, email, password) FROM stdin;
 \.
 
 
@@ -247,28 +237,28 @@ COPY public.users (user_id, fname, lname, address, city, state, email, password)
 -- Name: items_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tellysone
 --
 
-SELECT pg_catalog.setval('public.items_item_id_seq', 3, true);
+SELECT pg_catalog.setval('public.items_item_id_seq', 1, false);
 
 
 --
 -- Name: packages_package_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tellysone
 --
 
-SELECT pg_catalog.setval('public.packages_package_id_seq', 3, true);
+SELECT pg_catalog.setval('public.packages_package_id_seq', 1, false);
 
 
 --
 -- Name: statuses_status_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tellysone
 --
 
-SELECT pg_catalog.setval('public.statuses_status_id_seq', 2, true);
+SELECT pg_catalog.setval('public.statuses_status_id_seq', 1, false);
 
 
 --
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tellysone
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 3, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 1, false);
 
 
 --

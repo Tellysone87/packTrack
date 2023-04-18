@@ -19,7 +19,7 @@ get item in package - returns the packages item.
 
 from datetime import datetime
 from model import db, User, Package, Status, Item, connect_to_db
-def create_user(fname, lname, address, city, state, email, password):
+def create_user(fname, lname, address, city, state, zipcode, email, password):
     """his function Creates and return a new user."""
 
     # creates the user object instance by calling the User class and passing the argumants.
@@ -29,6 +29,7 @@ def create_user(fname, lname, address, city, state, email, password):
         address=address,
         city=city,
         state=state,
+        zipcode=zipcode,
         email=email,
         password=password
     )

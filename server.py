@@ -4,7 +4,7 @@
 # Flask is a web framework used to repsond to requests.
 # I will using flask to handle calls when forms are submitted.
 # Flask responds to web requests by calling functions
-from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify , json
+from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import os
@@ -58,7 +58,7 @@ def load_homepage(status):
         return redirect("/home.html")
     
     # catch if someone hits the back button
-    elif not session['user_email']:
+    elif 'user_email' not in session:
         return redirect("/home.html")
 
 # Below is the route for my log in page.
@@ -90,17 +90,17 @@ def register_user():
     """ accepts fields from register page to create new user"""
 
     # grab the fields info
-    fname = request.form.get("fname").strip
-    lname = request.form.get("lname").strip
-    address = request.form.get("address").strip
-    city = request.form.get("city").strip
-    state = request.form.get("state").strip
-    email = request.form.get("email").strip
-    password = request.form.get("password").strip
+    fname = request.form.get("fname").strip()
+    lname = request.form.get("lname").strip()
+    address = request.form.get("address").strip()
+    city = request.form.get("city").strip()
+    state = request.form.get("state").strip()
+    zipcode = request.form.get("zipcode").strip()
+    email = request.form.get("email").strip()
+    password = request.form.get("password").strip()
 
-    # sets user to the function to get user by email
-    user = crud.get_user_by_email(email)
-    fields = [fname, lname, address, city, state, email, password]
+   
+    fields = [fname, lname, address, city, state, zipcode, email, password]
     # list of user giving values
    
     # check if fields are empty
@@ -108,14 +108,17 @@ def register_user():
         flash("All fields are required to make an account. Try again.")
         return redirect("/register.html") # tell user to fill all fields out and redirect
     
+    # sets user to the function to get user by email
+    user = crud.get_user_by_email(email)
+    
     # Check if user exists by email before allowing a new account to be created. 
     if user:
         flash("A account exists with this email. Cannot create an account with that email. Try again.")
     else:
     # create that user account by adding that new object instance
-        user = crud.create_user(fname, lname, address, city, state, email, password)
+        new_user = crud.create_user(fname, lname, address, city, state, zipcode, email, password)
         # add user to the db session and commit
-        db.session.add(user)
+        db.session.add(new_user)
         db.session.commit()
         flash("Account created! Please log in.") #notify user of new account
 
@@ -127,8 +130,8 @@ def user_signin():
     """ Checks to verify users password"""
 
     # grabs the fields info
-    email = request.form.get("email").strip
-    password = request.form.get("password").strip
+    email = request.form.get("email").strip()
+    password = request.form.get("password").strip()
 
     # sets user to the function to get user by email
     user = crud.get_user_by_email(email)
@@ -168,7 +171,7 @@ def track_package():
     """ Creates new package record with the tracking number provided"""
     
     #grab the tracking number submitted by signed in user
-    package_to_track = request.form.get("tracking").strip
+    package_to_track = request.form.get("tracking").strip()
     # identify user signed in
     user = crud.get_user_by_email(session["user_email"])
 
@@ -261,31 +264,43 @@ def update_profile():
     user = crud.get_user_by_email(session["user_email"])
 
     # grab the fields info
-    fname = request.form.get("fname").strip
-    lname = request.form.get("lname").strip
-    address = request.form.get("address").strip
-    city = request.form.get("city").strip
-    state = request.form.get("state").strip
-    email = request.form.get("email").strip
+    fname = request.form.get("fname").strip()
+    lname = request.form.get("lname").strip()
+    address = request.form.get("address").strip()
+    city = request.form.get("city").strip()
+    state = request.form.get("state").strip()
+    zipcode = request.form.get("zipcode").strip()
+    email = request.form.get("email").strip()
+   
 
     # the field is updated where the user adds a new value
     if fname != "":
         user.fname = fname
-    elif lname != "":
+        
+    if lname != "":
         user.lname = lname
-    elif address != "":
+        
+    if address != "":
         user.address = address
-    elif city != "":
+        
+    if city != "":
         user.city = city
-    elif state != "":
+        
+    if state != "":
         user.state = state
-    elif email != "":
+
+    if zipcode != "":
+        user.zipcode = zipcode
+        
+    if email != "":
         user.email = email
 
+    
     db.session.commit() # commit those changes. 
     session["user_email"] = user.email #reset the new email as the users in session now
-    flash("Your account has been updated")
+    flash("Your account has been updated.")
     return redirect("/profile.html") # redirect and show changes. 
+    
 
 # route to display reset password page
 @app.route('/reset_password.html')
@@ -329,9 +344,11 @@ def reset_email_link(token):
     try:
         email = s.loads(token, salt='reset_email_link', max_age=4600)
     except SignatureExpired: # Expired
-        return '<h1> Your link has expired</h1>'
+        flash("Your link has expired. Please sign in or request a new link.")
+        return redirect("/home.html")
     except BadTimeSignature: # Token link not correct
-        return '<h1> You are not the correct user</h1>'
+        flash("Your link is not correct. Please request a new link")
+        return redirect("/home.html")
     # if it is correct display this
     return render_template('/set_password.html', email = email )
 
@@ -348,9 +365,9 @@ def grab_password_value():
     """Grabs and set the new password value"""
 
     #get form date. If this page is loaded the user must have clicked the email token link in time.
-    email = request.form.get("email").strip
-    password = request.form.get("password").strip
-    new_password = request.form.get("new_password").strip
+    email = request.form.get("email").strip()
+    password = request.form.get("password").strip()
+    new_password = request.form.get("new_password").strip()
 
     #set the user that needs the password updated
     user = crud.get_user_by_email(email)

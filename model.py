@@ -31,6 +31,7 @@ class User(db.Model):
     address =db.Column(db.String(50), nullable=False)
     city =db.Column(db.String(25), nullable=False)
     state =db.Column(db.String(25), nullable=False)
+    zipcode =db.Column(db.Integer, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(50),nullable=False)
 
