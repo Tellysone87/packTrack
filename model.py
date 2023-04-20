@@ -33,7 +33,7 @@ class User(db.Model):
     state =db.Column(db.String(25), nullable=False)
     zipcode =db.Column(db.Integer, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(50),nullable=False)
+    password = db.Column(db.String(150),nullable=False)
 
     # Set the user table to a many package relationship
     packages = db.relationship("Package", back_populates="user")

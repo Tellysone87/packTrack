@@ -9,6 +9,7 @@ from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import os
 import requests
+from passlib.hash import argon2
 
 # Jinja is a popular template system for Python, used by Flask.
 # we will use this to make a template for each of your webpages.
@@ -64,9 +65,15 @@ def load_homepage(status):
 # Below is the route for my log in page.
 @app.route('/login')
 def user_sign_in():
+
     """ loads sign in page"""
 
     return render_template("login.html")
+
+# helper functiond for hashing pssswords
+def hash_password(password):
+    hashed_password = argon2.hash(password)
+    return hashed_password
 
 # loads the register page
 @app.route('/register')
@@ -98,6 +105,7 @@ def register_user():
     zipcode = request.form.get("zipcode").strip()
     email = request.form.get("email").strip()
     password = request.form.get("password").strip()
+    
 
    
     fields = [fname, lname, address, city, state, zipcode, email, password]
@@ -110,13 +118,15 @@ def register_user():
     
     # sets user to the function to get user by email
     user = crud.get_user_by_email(email)
+    final_password = hash_password(password)
+    print(final_password)
     
     # Check if user exists by email before allowing a new account to be created. 
     if user:
         flash("A account exists with this email. Cannot create an account with that email. Try again.")
     else:
     # create that user account by adding that new object instance
-        new_user = crud.create_user(fname, lname, address, city, state, zipcode, email, password)
+        new_user = crud.create_user(fname, lname, address, city, state, zipcode, email, final_password)
         # add user to the db session and commit
         db.session.add(new_user)
         db.session.commit()
@@ -140,7 +150,7 @@ def user_signin():
     if user:
         # condition for password entry
         correct_password = user.password # the correct password is the one in our Databse under the user.
-        if (password == correct_password): # correct password steps
+        if (argon2.verify(password, correct_password)): # correct password steps
             flash(f"Successfully signed in. Welcome back, {user.fname}!")
             session["user_email"] = user.email
             return redirect("/tracking")
@@ -257,7 +267,7 @@ def load_tracking_page():
         flash("Please sign in or make a account to view this page.")
         return redirect('/login')
 
-# route to handle form with /profile Post method (profile.html). TO ADD- prompt to ensure user wants to change profile fields
+# route to handle form with /profile Post method (profile.html).
 @app.route('/profile', methods=["POST"])
 def update_profile():
     # set the user at top
@@ -311,7 +321,6 @@ def load_reset_password():
 # route to handle form with /reset_password Post method (reset_password.html). This also
 # creates and send the email security token to the users email. 
 # TO ADD - make the email and link look better
-# TO ADD - add a link back to the register page
 @app.route('/reset_password', methods=["POST"])
 def reset_password():
     """render in reset page"""
@@ -328,7 +337,7 @@ def reset_password():
         link = url_for('reset_email_link', token=token, _external=True) # link with email token and it is outside our app thus external
         msg.subject ="PackTrack password reset link"
         msg.body = 'Your link is {}'.format(link) # email body with link. 
-        msg.html = f"<h2>PackTrack</h2><br><p>You are receving this email because you requested a email reset link. This reset link is only valid for 1 hour.</p><br> {msg.body}"
+        msg.html = f"<h2>PackTrack</h2><br><p>You are receving this email because you requested a email reset link. This reset link is only valid for 1 hour.</p><br>{msg.body}"
         mail.send(msg) # Send email 
         print("yes")
         return {"current_user": True}
@@ -375,7 +384,7 @@ def grab_password_value():
     user = crud.get_user_by_email(email)
     if user:
         if password == new_password: # if email is confirmed 
-            user.password = password # set new password
+            user.password = hash_password(password) # set new password
             db.session.commit() # commit change to database
             flash("Your password has been reset. Please log in. ")
             return redirect("/login") # redirect user to now sign in

@@ -145,7 +145,7 @@ CREATE TABLE public.users (
     state character varying(25) NOT NULL,
     zipcode integer NOT NULL,
     email character varying(50) NOT NULL,
-    password character varying(50) NOT NULL
+    password character varying(150) NOT NULL
 );
 
 

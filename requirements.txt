@@ -11,3 +11,4 @@ python-dotenv
 flask_mail
 os
 dotenv
+passlib==1.7.4
