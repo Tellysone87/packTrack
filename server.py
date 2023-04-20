@@ -40,36 +40,36 @@ s = URLSafeTimedSerializer(app.secret_key)
 def load_page():
     """loads home page for testing"""
 
-    return render_template("home.html/")
+    return render_template("/home.html")
 
 # home.html route. It loads the homepage
-@app.route('/home.html')
+@app.route('/home')
 def load_home():
     """loads the home page """
     return render_template("home.html")
 
 # home.html route. It loads the homepage
-@app.route('/home.html/<status>')
+@app.route('/home/<status>')
 def load_homepage(status):
     """loads the home page """
     # removs the users email whenever the home pag is loaded
     if status =="signed_out":
         del session['user_email']
-        return redirect("/home.html")
+        return redirect("/home")
     
     # catch if someone hits the back button
     elif 'user_email' not in session:
-        return redirect("/home.html")
+        return redirect("/home")
 
 # Below is the route for my log in page.
-@app.route('/login.html')
+@app.route('/login')
 def user_sign_in():
     """ loads sign in page"""
 
     return render_template("login.html")
 
 # loads the register page
-@app.route('/register.html')
+@app.route('/register')
 def user_registry():
     """ loads register page"""
 
@@ -143,17 +143,17 @@ def user_signin():
         if (password == correct_password): # correct password steps
             flash(f"Successfully signed in. Welcome back, {user.fname}!")
             session["user_email"] = user.email
-            return redirect("/tracking.html")
+            return redirect("/tracking")
         elif not user or password != correct_password: # incorrect password steps
             flash("Your password or username is incorrect. Try again.")
-            return redirect("/login.html")
+            return redirect("/login")
     # If that user does not exist. Ask the user to try again of create a new account.
     elif not user:
         flash("There is no registered user with this email address. Please try again or create an account.")
-        return redirect("/login.html")
+        return redirect("/login")
       
 # route to load the profile page with the user info
-@app.route('/profile.html')
+@app.route('/profile')
 def load_profile_page():
     """ renders profile page for the logged in User"""
     if 'user_email' in session:
@@ -163,7 +163,7 @@ def load_profile_page():
         return render_template("/profile.html",user=user) # render profile and pass that user object
     else:
         flash("Please login to view this page.")
-        return redirect("login.html")
+        return redirect("/login")
 
 # route to handle form with /tracking Post method (tracking.html)
 @app.route('/tracking', methods=['POST'])
@@ -205,7 +205,7 @@ def track_package():
     load_all_package_history(tracking_number)
 
     # redirects with new package added
-    return redirect('/tracking.html')
+    return redirect('/tracking')
 
 # function to populate statuses table based per package. It will be called
 # in the tracing Post route. 
@@ -241,7 +241,7 @@ def send_ajax_history():
     
 
 # route to display tracking page
-@app.route('/tracking.html')
+@app.route('/tracking')
 def load_tracking_page():
     """ renders profile page"""
     
@@ -255,7 +255,7 @@ def load_tracking_page():
         return render_template("tracking.html", packages=packages) #return trackage with the packages
     else:
         flash("Please sign in or make a account to view this page.")
-        return redirect('/login.html')
+        return redirect('/login')
 
 # route to handle form with /profile Post method (profile.html). TO ADD- prompt to ensure user wants to change profile fields
 @app.route('/profile', methods=["POST"])
@@ -299,11 +299,11 @@ def update_profile():
     db.session.commit() # commit those changes. 
     session["user_email"] = user.email #reset the new email as the users in session now
     flash("Your account has been updated.")
-    return redirect("/profile.html") # redirect and show changes. 
+    return redirect("/profile") # redirect and show changes. 
     
 
 # route to display reset password page
-@app.route('/reset_password.html')
+@app.route('/reset_password')
 def load_reset_password():
     """render in reset page"""
     return render_template("reset_password.html")
@@ -326,7 +326,9 @@ def reset_password():
         msg = Message('Click here to reset your password',
                       sender='superstaris2020@gmail.com', recipients=[email]) # set the message to send, my email, and the users email
         link = url_for('reset_email_link', token=token, _external=True) # link with email token and it is outside our app thus external
+        msg.subject ="PackTrack password reset link"
         msg.body = 'Your link is {}'.format(link) # email body with link. 
+        msg.html = f"<h2>PackTrack</h2><br><p>You are receving this email because you requested a email reset link. This reset link is only valid for 1 hour.</p><br> {msg.body}"
         mail.send(msg) # Send email 
         print("yes")
         return {"current_user": True}
@@ -336,7 +338,7 @@ def reset_password():
 
 # route for getting that toekn form the email and checking if it is correct before 
 # directing user to set their new password. TO ADD have the errors load back to the reset page with alerts
-@app.route('/set_password.html/<token>')
+@app.route('/set_password/<token>')
 def reset_email_link(token):
     """checks token and lets user reset their password"""
 
@@ -353,11 +355,11 @@ def reset_email_link(token):
     return render_template('/set_password.html', email = email )
 
 # route for displaying set password page. 
-@app.route('/set_password.html')
+@app.route('/set_password')
 def set_new_password():
     """allows the user to reset their passwork with form"""
     
-    return render_template('/set_password.html')
+    return render_template('/set_password')
 
 # route to handle form with /set_new_password Post method (set_password.html).
 @app.route('/set_new_password', methods =['POST'])
@@ -376,15 +378,15 @@ def grab_password_value():
             user.password = password # set new password
             db.session.commit() # commit change to database
             flash("Your password has been reset. Please log in. ")
-            return redirect("/login.html") # redirect user to now sign in
+            return redirect("/login") # redirect user to now sign in
         
         elif password != new_password: # if passwords don't match, ask the user to try again
             flash("Your passwords do not match. You must confirm your password.")
-            return redirect('/set_password.html')
+            return redirect('/set_password')
     #if the user puts in wrong email redirect and ask them to try again 
     elif not user:
         flash("Your email is incorrect, please try again.")
-        return redirect('/set_password.html')
+        return redirect('/set_password')
 
 
 # Creating Flask object to use on our site.

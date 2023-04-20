@@ -1,49 +1,58 @@
 {% extends 'base.html' %}
 
-{% block title %}PackTrack Registry Page{% endblock %}
+{% block title %}Create an Account - PackTrack{% endblock %}
 
 {% block button %}{% endblock %}
 
 {% block content %}
-<h4>Why waste time with tracking links.Create an Account
+<h4>Why waste time with tracking links and tons of web windows.Create an Account
     and start tracking online purchases now.
 </h4><br>
 {% endblock %}
 
 {% block example %}
-<h2>Create an Account</h2>
+<h2>Create Your PackTrack Account Below:</h2>
 
 <!-- Login fields for registered users -->
 <form action="/users" method="POST">
     <p>
-        First Name <input type="text" name="fname" required>
+        <label for="First Name">First Name:</label>
+        <input type="text" name="fname" required>
     </p>
 
     <p>
-        Last Name <input type="text" name="lname" required>
+        <label for="Last Name">Last Name:</label>
+        <input type="text" name="lname" required>
     </p>
 
     <p>
-        Street Address <input type="text" name="address" required>
+        <label for="Street Address">Street Address:</label>
+        <input type="text" name="address" required>
     </p>
 
     <p>
-        City <input type="text" name="city" required>
+        <label for="City">City:</label>
+        <input type="text" name="city" required>
     </p>
 
     <p>
-        State <input type="text" name="state" required>
-    </p>
-    <p>
-        Zip Code <input type="text" name="zipcode" required>
+        <label for="State">State:</label>
+        <input type="text" name="state" required>
     </p>
 
     <p>
-        Email <input type="text" name="email" required>
+        <label for="Zip code">Zip Code:</label>
+        <input type="text" name="zipcode" pattern="[0-9]{5}" required>
     </p>
 
     <p>
-        Password <input type="password" name="password" required>
+        <label for="Email">Email:</label>
+        <input type="email" name="email" required>
+    </p>
+
+    <p>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
     </p>
 
     <p>

@@ -9,14 +9,6 @@ const track_area = document.querySelector('#track_num');
 const table = document.querySelector('#packages');
 const message_area= document.querySelector("#rmessage")
 
-// function to verify if user wants to update their profile
-document.querySelector('#update_profile').addEventListener('submit',(evt) => {
-    check = confirm('Are you sure you want to update your profile?');
-    if(check === false){
-        evt.preventDefault(); /* prevent default actions to update profile*/
-    };
-});
-
 //  function for event listener when the user submits a email
 document.querySelector('#reset').addEventListener('submit', (evt) => {
     /*  This function is to display a messages to the user know when the reset email form is submittted.

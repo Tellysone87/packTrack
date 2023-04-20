@@ -1,15 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %}Package Tracking{% endblock %}
+{% block title %}Package Tracking - PackTrack{% endblock %}
 
 <!-- Puts button onto the nav bar -->
-{% block button %}<a href="/profile.html"><i class="bi bi-person"></i>Profile</a>{% endblock %}
+{% block button %}<a href="/profile"><i class="bi bi-person"></i>Back to user profile page</a>{% endblock %}
 
 
 {% block content %}
-<h4><span>You have {{packages|length}} packages</span></h4><br>
+<h1 id="num_packages"><span> Tracked packages: {{packages|length}}</span></h1><br>
+
+<div id="instructions" class="row">
+    <div class="col-11">
+        <h4>To view the package history:</h4>
+        <ol>
+            <li>click the package history button in the associated row</li>
+            <li>click the history button again to remove the history table before moving to a new package</li>
+        </ol>
+    </div>
+</div>
 
 <!-- create table for holding package data -->
+<p>The table below displays the lastest status of the package associated with the tracking number.</p>
 <div class="overflow-auto" id="pack_scroll">
     <table id="packages" class="col-12">
         <th>Tracking</th>
@@ -25,7 +36,7 @@
             <td>{{package.shipped_date.strftime('%m-%d-%Y')}}</td>
             <td>{{package.location}}</td>
             <td>{{package.carrier}}</td>
-            <td><button id="more_info" data-tracking="{{package.tracking_number}}">Click</button></td>
+            <td><button id="more_info" data-tracking="{{package.tracking_number}}">Package History</button></td>
         </tr>
 
         {% endfor %}
@@ -39,7 +50,8 @@
 <div class="row">
     <form class="col-12" id="tracking" action="/tracking" method="POST">
         <p>
-            Enter a tracking number: <input type="text" name="tracking">
+            <label for="Package Tracking Number">Enter a tracking number into the field:</label>
+            <input type="text" name="tracking">
             <input type="submit">
         </p>
     </form>
@@ -49,7 +61,7 @@
 <div class="row">
     <div class="overflow-auto">
         <Table class="col-12" id="history_tab">
-            
+
         </Table>
     </div>
 </div>

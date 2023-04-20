@@ -2,39 +2,42 @@
 this is the websites home page-->
 {% extends 'base.html' %}
 
-{% block title %}PackTrack Signin{% endblock %}
+{% block title %}Sign in page - PackTrack{% endblock %}
 
 <!-- Puts button onto the nav bar -->
 {% block button %}{% endblock %}
 
-<!-- Placing the body content into the body of page -->
+<!-- Placing the body content into the body of page. lighter portion of row -->
 {% block content %}
-<h1> Sign in and start tracking</h1><br>
+<h1 class="row" id="login_prompt"> Sign in to start tracking</h1><br>
 {% endblock %}
 
+<!-- Example blick is the darker half of screen -->
 {% block example %}
 <h2 id="sign_in_label">Sign In</h2>
 
 <!-- Login fields for registered users -->
 <form action="/login" method="POST">
     <p>
-        Email <input type="text" name="email" required>
+        <label for="Email">Email:</label>
+        <input type="email" name="email" required>
     </p>
 
     <p>
-        Password <input type="password" name="password" required>
+        <label for="Password">Password</label>
+        <input type="password" name="password" required>
     </p>
 
     <p>
         <input type="submit">
     </p>
     <p id = "reset_link">
-        <a href="/reset_password.html">Reset your password</a>
+        <a href="/reset_password">Reset your password</a>
     </p>
 </form>
 
 <!-- Prompts new users to register -->
 <p>Not yet a member? Click the botton below to register.</p>
-<a href="/register.html"><button id="register_button">Register</button></a>
+<a href="/register"><button id="register_button">Register an Account</button></a>
 
 {% endblock %}
