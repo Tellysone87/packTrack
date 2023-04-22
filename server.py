@@ -4,12 +4,13 @@
 # Flask is a web framework used to repsond to requests.
 # I will using flask to handle calls when forms are submitted.
 # Flask responds to web requests by calling functions
-from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify
+from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify, Response, make_response
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import os
 import requests
 from passlib.hash import argon2
+# from nocache import nocache
 
 # Jinja is a popular template system for Python, used by Flask.
 # we will use this to make a template for each of your webpages.
@@ -19,9 +20,12 @@ from jinja2 import StrictUndefined
 # import db to start connecting to database
 from model import connect_to_db, db
 import crud
+from nocache import nocache
 import fed_Api
 from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
+
+
 
 
 # Creating a object of Flask to use in our site
@@ -43,20 +47,40 @@ def load_page():
 
     return render_template("/home.html")
 
+# @app.after_request
+# def after_request(response):
+#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     return response
+
 # home.html route. It loads the homepage
 @app.route('/home')
 def load_home():
+
     """loads the home page """
+
+    # print(request.headers.get("Cache_control"))
+    # print(dict(request.headers))
+    # request.headers['Cache_Control'] ="no_store"
     return render_template("home.html")
+
+@app.route('/map')
+def show_map():
+    return render_template("/map.html")
 
 # home.html route. It loads the homepage
 @app.route('/home/<status>')
 def load_homepage(status):
     """loads the home page """
-    # removs the users email whenever the home pag is loaded
+    print(Response)
+
+    # removes the users email whenever the home page is loaded
     if status =="signed_out":
-        del session['user_email']
-        return redirect("/home")
+        try:
+            del session['user_email']
+            return redirect("/home")
+        except KeyError: 
+            flash(f'Member already signed out.')
+            return redirect("/home")
     
     # catch if someone hits the back button
     elif 'user_email' not in session:
@@ -164,6 +188,7 @@ def user_signin():
       
 # route to load the profile page with the user info
 @app.route('/profile')
+@nocache
 def load_profile_page():
     """ renders profile page for the logged in User"""
     if 'user_email' in session:
@@ -190,7 +215,7 @@ def track_package():
      info = fed_Api.get_tracking_info(package_to_track) # returns library
     except KeyError: 
         flash(f'We are not able to track package number {package_to_track} at this time.')
-        return redirect('/tracking.html')
+        return redirect('/tracking')
 
     # grabs the information needed from the api library I created
     user_id = user
@@ -252,6 +277,7 @@ def send_ajax_history():
 
 # route to display tracking page
 @app.route('/tracking')
+@nocache # custom decorater that sets the headers for the browser
 def load_tracking_page():
     """ renders profile page"""
     
@@ -396,7 +422,6 @@ def grab_password_value():
     elif not user:
         flash("Your email is incorrect, please try again.")
         return redirect('/set_password')
-
 
 # Creating Flask object to use on our site.
 # tells Python to execute code if you’re running a script directly.

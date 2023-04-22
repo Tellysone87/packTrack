@@ -8,6 +8,7 @@
 
 {% block content %}
 <h1 id="num_packages"><span> Tracked packages: {{packages|length}}</span></h1><br>
+<a href="/map">View map</a>
 
 <div id="instructions" class="row">
     <div class="col-11">
@@ -22,6 +23,7 @@
 <!-- create table for holding package data -->
 <p>The table below displays the lastest status of the package associated with the tracking number.</p>
 <div class="overflow-auto" id="pack_scroll">
+    <div class="row">
     <table id="packages" class="col-12">
         <th>Tracking</th>
         <th>Status</th>
@@ -41,7 +43,7 @@
 
         {% endfor %}
     </table>
-</div>
+</div></div>
 
 {% endblock %}
 
@@ -51,7 +53,7 @@
     <form class="col-12" id="tracking" action="/tracking" method="POST">
         <p>
             <label for="Package Tracking Number">Enter a tracking number into the field:</label>
-            <input type="text" name="tracking">
+            <input type="text" name="tracking" required>
             <input type="submit">
         </p>
     </form>

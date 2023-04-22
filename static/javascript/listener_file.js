@@ -7,7 +7,7 @@
 const reset_link = document.querySelector('#reset_message');
 const track_area = document.querySelector('#track_num');
 const table = document.querySelector('#packages');
-const message_area= document.querySelector("#rmessage")
+const message_area= document.querySelector("#rmessage");
 
 //  function for event listener when the user submits a email
 document.querySelector('#reset').addEventListener('submit', (evt) => {

@@ -58,6 +58,7 @@ footer {
 #packages td, #packages th {
     border: 1px solid #ddd;
     padding: 8px;
+  
 }
 
 /* Grey every other row */
@@ -134,8 +135,8 @@ a {
 }
 
 #pack_scroll{
-    max-width: 700px;
-    max-height: 400px;
+    max-width: 900px;
+    max-height: 250px;
 }
 
 #history_tab td, #history_tab th {
@@ -164,8 +165,8 @@ a {
 
 #num_packages {
     color: #373f51;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     text-align: left;
     color: #58A4B0;
     font: bolder;

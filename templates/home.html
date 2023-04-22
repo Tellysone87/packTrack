@@ -2,9 +2,10 @@
 this is the websites home page-->
 {% extends 'base.html' %}
 
-<head>
+
 <!-- Page title name -->
 {% block title %}Home Page - PackTrack{% endblock %}
+
 
 <!-- Puts button onto the nav bar -->
 {% block button %}<a href="/login"><button id="sign_in">Register/Sign in</button></a>{% endblock %}
@@ -13,6 +14,7 @@ this is the websites home page-->
 {% block content %}
 <div class="row" id="slogan">
     <h1> You've got Packages and we got tracking</h1>
+    
 </div>
 
 <div class="col-2 offset-2">
@@ -24,6 +26,3 @@ this is the websites home page-->
 {% block example %}
 <h2>Track your packages in one place!</h2>
 {% endblock %}
-
-{% block script %}
-<script src="/static/javascript/disable_back.js"></script>{% endblock %}
