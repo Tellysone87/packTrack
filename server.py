@@ -4,7 +4,7 @@
 # Flask is a web framework used to repsond to requests.
 # I will using flask to handle calls when forms are submitted.
 # Flask responds to web requests by calling functions
-from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify, Response, make_response
+from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify, Response
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import os
@@ -33,7 +33,7 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 app.config.from_pyfile('config.cfg') # imports the mail server info
-mail = Mail(app)
+mail = Mail(app) # creates our mail server
 
 # create serializer and give it the app secret key
 s = URLSafeTimedSerializer(app.secret_key)
@@ -47,11 +47,6 @@ def load_page():
 
     return render_template("/home.html")
 
-# @app.after_request
-# def after_request(response):
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     return response
-
 # home.html route. It loads the homepage
 @app.route('/home')
 def load_home():
@@ -64,9 +59,39 @@ def load_home():
     return render_template("home.html")
 
 @app.route('/map')
-def show_map():
-    return render_template("/map.html")
+def show_map(): 
+    """Renders the map page"""
+    if 'user_email' in session:
+        # grab user signed in
+        user = crud.get_user_by_email(session["user_email"])
+        # grab all packages connected to that user
+        packages = crud.get_packages_by_user(user.user_id)
 
+        # pass google api key with url script
+        google_api = os.environ['Google_Api_key']
+        Google = f"https://maps.googleapis.com/maps/api/js?key={google_api}&callback=get_info"
+        return render_template("map.html", packages=packages, google_url = Google) #return trackage with the packages
+    else:
+        flash("Please sign in or make a account to view this page.")
+        return redirect('/login')
+    
+@app.route('/location')
+def send_location_library():
+    location_library = {}
+    location = []
+
+    # grab user signed in
+    user = crud.get_user_by_email(session["user_email"])
+    # grab all packages connected to that user
+    packages = crud.get_packages_by_user(user.user_id)
+
+    for p in packages:
+        location.append(p.location)
+    location_library['location'] = location
+    print(location_library)
+
+    return location_library
+  
 # home.html route. It loads the homepage
 @app.route('/home/<status>')
 def load_homepage(status):
@@ -274,7 +299,6 @@ def send_ajax_history():
     
     return status
     
-
 # route to display tracking page
 @app.route('/tracking')
 @nocache # custom decorater that sets the headers for the browser
@@ -422,6 +446,7 @@ def grab_password_value():
     elif not user:
         flash("Your email is incorrect, please try again.")
         return redirect('/set_password')
+
 
 # Creating Flask object to use on our site.
 # tells Python to execute code if you’re running a script directly.

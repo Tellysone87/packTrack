@@ -137,7 +137,7 @@ def get_events_info(tracking_number):
         events_library['track'] = package_to_track
         events_library['date'] = date
         events_library['event'] = event
-        events_library['location'] = f'{city_location}, {state_location}'
+        events_library['location'] = f'{city_location},{state_location}'
 
         # condition if the location is None
         if events_library['location'] == 'None, None':

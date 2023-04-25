@@ -194,3 +194,45 @@ a {
     padding-right: 12px;
     font-family: monospace;
 }
+
+/* Css for the map ajax table */
+
+#locations{
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border:1px solid black;
+    padding: 5px;
+    
+}
+
+#map_holder {
+    height: 400px;
+    width: 100%;
+}
+
+
+#map_heading{
+    background-color:  #58A4B0;
+    border:2px solid black;
+}
+
+#locations td, #locations th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    background-color:  #58A4B0
+}
+
+/* Grey every other row */
+#locations tr:nth-child(even){background-color: #f2f2f2;}
+
+/* high lights when hovering */
+#locations tr:hover {background-color: #5c86b3;}
+
+/* controls the header items */
+#locations th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color:  #58A4B0;
+    color: white;}

@@ -6,8 +6,8 @@ from datetime import datetime
 # This code was found online at https://arusahni.net/blog/2014/03/flask-nocache.html.
 # I did not write or own this code in anyway. It was used to help me secure the members
 # profile after logging out. In chrome and fire fox you were able to use the back button
-# and get back into the signed out users profile. I did try researching solutions but wher not able to find any.
-# I will researh this function to be sure I understand hoe it works. 
+# and get back into the signed out users profile. I did try researching solutions but where not able to find any.
+# I will researh this function to be sure I understand how it works. 
 
 def nocache(view):
     @wraps(view) #sets the decorater to the page and sets the following headers

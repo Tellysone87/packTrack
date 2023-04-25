@@ -3,6 +3,50 @@
 {% block title %}Package Tracking - PackTrack{% endblock %}
 
 <!-- Puts button onto the nav bar -->
-{% block button %}<a href="/tracking">Back to Tracking  page</a>{% endblock %}
+{% block button %}<a href="/tracking">Back to Tracking page</a>{% endblock %}
 
-{% block example %}{% endblock %}
+{% block content %}
+<div class="row" id="map_heading">
+    <div class="col-11 offset-1">
+        <h1>Your Tracked Packages</h1>
+    </div>
+</div>
+
+<div id="test">
+
+</div>
+
+<div id="map_holder">
+    <!-- Hold the google map here. -->
+</div>
+
+{% endblock %}
+
+{% block example %}
+<!-- create table for holding package location -->
+<p>Current package locations</p>
+<div class="row">
+    <table id="locations" class="col-12">
+        <th>Tracking</th>
+        <th>Status</th>
+        <th>Location</th>
+        {% for package in packages %}
+        <tr>
+            <td>{{package.tracking_number}}</td>
+            <td>{{package.status}}</td>
+            <td id="location" data-location="{{package.location}}">{{package.location}}</td>
+        </tr>
+
+        {% endfor %}
+    </table>
+</div>
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- Map javascript sources -->
+<script src="/static/javascript/maps.js"></script>
+<script async src={{google_url}}>
+</script>
+
+{% endblock %}
