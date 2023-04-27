@@ -5,60 +5,62 @@
 {% block button %}{% endblock %}
 
 {% block content %}
-<h4>Why waste time with tracking links and tons of web windows.Create an Account
+<h2>Why waste time with tracking links and tons of web windows.Create an Account
     and start tracking online purchases now.
-</h4><br>
+</h2><br>
 {% endblock %}
 
 {% block example %}
 <h2>Create Your PackTrack Account Below:</h2>
 
 <!-- Login fields for registered users -->
-<form action="/users" method="POST">
-    <p>
-        <label for="First Name">First Name:</label>
-        <input type="text" name="fname" required>
-    </p>
+<div>
+    <form action="/users" method="POST" aria-label="New Member Registration Form">
+        <p>
+            <label for="First Name">First Name:</label>
+            <input type="text" id="First Name" name="fname" required>
+        </p>
 
-    <p>
-        <label for="Last Name">Last Name:</label>
-        <input type="text" name="lname" required>
-    </p>
+        <p>
+            <label for="Register Last Name">Last Name:</label>
+            <input type="text" id="Register Last Name"name="lname" required>
+        </p>
 
-    <p>
-        <label for="Street Address">Street Address:</label>
-        <input type="text" name="address" required>
-    </p>
+        <p>
+            <label for="Register Street Address">Street Address:</label>
+            <input type="text" id="Register Street Address" name="address" required>
+        </p>
 
-    <p>
-        <label for="City">City:</label>
-        <input type="text" name="city" required>
-    </p>
+        <p>
+            <label for="Register City">City:</label>
+            <input type="text" id="Register City" name="city" required>
+        </p>
 
-    <p>
-        <label for="State">State:</label>
-        <input type="text" name="state" required>
-    </p>
+        <p>
+            <label for="Register State">State:</label>
+            <input type="text" id="Register State" name="state" required>
+        </p>
 
-    <p>
-        <label for="Zip code">Zip Code:</label>
-        <input type="text" name="zipcode" pattern="[0-9]{5}" required>
-    </p>
+        <p>
+            <label for="Register Zip code">Zip Code:</label>
+            <input type="text" id="Register Zip code" name="zipcode" pattern="[0-9]{5}" required>
+        </p>
 
-    <p>
-        <label for="Email">Email:</label>
-        <input type="email" name="email" required>
-    </p>
+        <p>
+            <label for="Register Email">Email:</label>
+            <input type="email" id="Register Email"name="email" required>
+        </p>
 
-    <p>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-    </p>
+        <p>
+            <label for="Register password">Password:</label>
+            <input type="password" id="Register password"name="password" required>
+        </p>
 
-    <p>
-        <input type="submit">
-    </p>
-</form>
+        <p>
+            <input type="submit" aria-label="submit registration form">
+        </p>
+    </form>
+</div>
 
 
 {% endblock %}

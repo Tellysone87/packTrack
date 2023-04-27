@@ -19,17 +19,17 @@ this is the websites home page-->
 <!-- Login fields for registered users -->
 <form action="/login" method="POST">
     <p>
-        <label for="Email">Email:</label>
-        <input type="email" name="email" required>
+        <label for="User login email">Email:</label>
+        <input id="User login email" type="email" name="email" required>
     </p>
 
     <p>
-        <label for="Password">Password</label>
-        <input type="password" name="password" required>
+        <label for="User login password">Password:</label>
+        <input id="User login password" type="password" name="password" required>
     </p>
 
     <p>
-        <input type="submit">
+        <input type="submit" value="Submit Form">
     </p>
     <p id = "reset_link">
         <a href="/reset_password">Reset your password</a>

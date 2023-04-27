@@ -14,8 +14,9 @@ body {
 
 #sign_in {
     background-color: #58A4B0;
-    color: #373F51;
+    color: black;
     font-weight: bold;
+    
 
 }
 footer {
@@ -73,7 +74,7 @@ footer {
     padding-bottom: 12px;
     text-align: left;
     background-color:  #58A4B0;
-    color: white;
+    color: black;
 }
  /* Profile tables Css is below */
 #profile_table {
@@ -100,7 +101,7 @@ footer {
 #profile_table th {
     text-align: left;
     background-color:  #58A4B0;
-    color: white;
+    color: black;
 }
 
 form {
@@ -115,8 +116,15 @@ form {
 
 a {
     text-decoration: none ;
+    color:  white;
+    font-weight: bold;
 }
 
+a#viewMap{
+    color:  #373f51;
+    font-weight: bold;
+    text-decoration: underline;
+}
 /* Css for the history ajax table */
 
 #history_tab{
@@ -168,7 +176,7 @@ a {
     padding-top: 5px;
     padding-bottom: 5px;
     text-align: left;
-    color: #58A4B0;
+    color: black;
     font: bolder;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -220,7 +228,8 @@ a {
 #locations td, #locations th {
     border: 1px solid #ddd;
     padding: 8px;
-    background-color:  #58A4B0
+    background-color:  #58A4B0;
+    color: black;
 }
 
 /* Grey every other row */
@@ -234,5 +243,10 @@ a {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color:  #58A4B0;
-    color: white;}
+    background-color:  #afced3;
+    color: black;}
+
+#sign_out a{
+    text-decoration: underline;
+    color: black;
+}

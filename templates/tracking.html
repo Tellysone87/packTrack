@@ -8,11 +8,11 @@
 
 {% block content %}
 <h1 id="num_packages"><span> Tracked packages: {{packages|length}}</span></h1><br>
-<a href="/map">View map</a>
+<a href="/map" id="viewMap">View map</a>
 
 <div id="instructions" class="row">
     <div class="col-11">
-        <h4>To view the package history:</h4>
+        <h2>To view the package history:</h2>
         <ol>
             <li>click the package history button in the associated row</li>
             <li>click the history button again to remove the history table before moving to a new package</li>
@@ -53,8 +53,8 @@
     <form class="col-12" id="tracking" action="/tracking" method="POST">
         <p>
             <label for="Package Tracking Number">Enter a tracking number into the field:</label>
-            <input type="text" name="tracking" required>
-            <input type="submit">
+            <input type="text" id="Package Tracking Number" name="tracking" required>
+            <input type="submit" aria-label="Submit the tracking number">
         </p>
     </form>
 </div>

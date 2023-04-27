@@ -331,8 +331,9 @@ def update_profile():
     state = request.form.get("state").strip()
     zipcode = request.form.get("zipcode").strip()
     email = request.form.get("email").strip()
-   
 
+    update_fields=[fname,lname,address,city,state,zipcode,email]
+   
     # the field is updated where the user adds a new value
     if fname != "":
         user.fname = fname
@@ -355,12 +356,17 @@ def update_profile():
     if email != "":
         user.email = email
 
-    
-    db.session.commit() # commit those changes. 
-    session["user_email"] = user.email #reset the new email as the users in session now
-    flash("Your account has been updated.")
-    return redirect("/profile") # redirect and show changes. 
-    
+    for field in update_fields:
+        if field != "":
+        # if data was added 
+            db.session.commit() # commit those changes. 
+            session["user_email"] = user.email #reset the new email as the users in session now
+            flash("Your account has been updated.")
+            return redirect("/profile") # redirect and show changes. 
+        else:
+            flash("Please enter data on field to update.")
+            return redirect("/profile")
+        
 
 # route to display reset password page
 @app.route('/reset_password')
@@ -374,7 +380,6 @@ def load_reset_password():
 @app.route('/reset_password', methods=["POST"])
 def reset_password():
     """render in reset page"""
-
     # grab the email submitted
     email = request.json.get("email")
     user = crud.get_user_by_email(email) # sets the email to user if user exists
@@ -386,8 +391,9 @@ def reset_password():
                       sender='superstaris2020@gmail.com', recipients=[email]) # set the message to send, my email, and the users email
         link = url_for('reset_email_link', token=token, _external=True) # link with email token and it is outside our app thus external
         msg.subject ="PackTrack password reset link"
-        msg.body = 'Your link is {}'.format(link) # email body with link. 
-        msg.html = f"<h2>PackTrack</h2><br><p>You are receving this email because you requested a email reset link. This reset link is only valid for 1 hour.</p><br>{msg.body}"
+        # msg.body = 'Your link is {}'.format(link) # email body with link. 
+        # msg.html = f"<h2>PackTrack</h2><br><p>You are receving this email because you requested a email reset link. This reset link is only valid for 1 hour.</p><br>{msg.body}"
+        msg.html = render_template('email.html', link = link)
         mail.send(msg) # Send email 
         print("yes")
         return {"current_user": True}
@@ -406,10 +412,10 @@ def reset_email_link(token):
         email = s.loads(token, salt='reset_email_link', max_age=4600)
     except SignatureExpired: # Expired
         flash("Your link has expired. Please sign in or request a new link.")
-        return redirect("/home.html")
+        return redirect("/home")
     except BadTimeSignature: # Token link not correct
         flash("Your link is not correct. Please request a new link")
-        return redirect("/home.html")
+        return redirect("/home")
     # if it is correct display this
     return render_template('/set_password.html', email = email )
 

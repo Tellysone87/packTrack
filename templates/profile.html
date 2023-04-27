@@ -7,7 +7,7 @@
 
 {% block content %}
 <!-- Displays the users stored profile information -->
-<h3>Member Account Information</h3>
+<h1>Member Account Information</h1>
 <table id="profile_table">
     <th>First Name</th>
     <th>Last Name</th>
@@ -35,49 +35,49 @@
 
 {% block example %}
 <!-- User will use this form to update any fields of their profile -->
-<h4>Update your account information below:</h4>
+<h2>Update your account information below:</h2>
 
 <p> Enter new or changed information into the designated field and click the submit button.</p>
 
 <form id="update_profile" action="/profile" method="POST">
 
     <p>
-        <label for="First Name">First Name:</label>
-        <input type="text" name="fname" >
+        <label for="update First Name">First Name:</label>
+        <input type="text" name="fname" id="update First Name">
     </p>
 
     <p>
-        <label for="Last Name">Last Name:</label>
-        <input type="text" name="lname">
+        <label for="update Last Name">Last Name:</label>
+        <input type="text" name="lname"id="update Last Name">
     </p>
 
     <p>
-        <label for="Street Address">Street Address:</label>
-        <input type="text" name="address">
+        <label for="update Street Address">Street Address:</label>
+        <input type="text" name="address" id="update Street Address">
     </p>
 
     <p>
-        <label for="City">City:</label>
-        <input type="text" name="city">
+        <label for="update City">City:</label>
+        <input type="text" name="city" id="update City">
     </p>
 
     <p>
-        <label for="State">State:</label>
-        <input type="text" name="state">
+        <label for="update State">State:</label>
+        <input type="text" name="state" id="update State">
     </p>
 
     <p>
-        <label for="Zip code">Zip Code:</label>
-        <input type="text" name="zipcode" pattern="[0-9]{5}">
+        <label for="update Zip code">Zip Code:</label>
+        <input type="text" name="zipcode" pattern="[0-9]{5}" id="update Zip code">
     </p>
 
     <p>
-        <label for="Email">Email:</label>
-        <input type="email" name="email">
+        <label for="update Email">Email:</label>
+        <input type="email" name="email" id="update Email">
     </p>
 
     <p>
-        <button type="submit">Update</button>
+        <button type="submit" aria-label="submit and update fields">Update</button>
     </p>
 </form>
 {% endblock %}
