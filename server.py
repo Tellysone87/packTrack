@@ -4,11 +4,11 @@
 # Flask is a web framework used to repsond to requests.
 # I will using flask to handle calls when forms are submitted.
 # Flask responds to web requests by calling functions
-from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify, Response
+from flask import Flask, render_template, request, flash, session, redirect, url_for, jsonify
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 import os
-import requests
+# import requests
 from passlib.hash import argon2
 # from nocache import nocache
 
@@ -96,7 +96,6 @@ def send_location_library():
 @app.route('/home/<status>')
 def load_homepage(status):
     """loads the home page """
-    print(Response)
 
     # removes the users email whenever the home page is loaded
     if status =="signed_out":
@@ -401,7 +400,7 @@ def reset_password():
         print("nope")
         return {"current_user": False}
 
-# route for getting that toekn form the email and checking if it is correct before 
+# route for getting that token form the email and checking if it is correct before 
 # directing user to set their new password. TO ADD have the errors load back to the reset page with alerts
 @app.route('/set_password/<token>')
 def reset_email_link(token):

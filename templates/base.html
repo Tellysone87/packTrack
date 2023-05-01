@@ -5,7 +5,7 @@ The other webpages will inherit this html to ensure the theme is universal -->
 <html lang="en">
 
 <head>
-    
+
     <title>{% block title %}{% endblock %}</title>
 
     <!-- Load Bootstrap for orginizing webpages-->
@@ -31,7 +31,9 @@ The other webpages will inherit this html to ensure the theme is universal -->
     <div class="row">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid" id="nav_bar">
-                <a href = "/home"><h1 id="h1_nav">PackTrack</h1></a>
+                <a href="/home">
+                    <h1 id="h1_nav">PackTrack</h1>
+                </a>
                 {% block button %}{% endblock %}
             </div>
         </nav>
@@ -46,12 +48,38 @@ The other webpages will inherit this html to ensure the theme is universal -->
     </div>
     <div class="row">
         <div class="col-12">
-            <footer>
-                <p>Track all of your packages in one place. Never miss a delivery!</p>
-                <p>PackTrack inc. For educational use only</p>
+
+            <footer class="text-center">
+                <!-- Grid container -->
+                <div class="container p-4 pb-0">
+                    <!-- Section: Social media -->
+                    <section class="mb-4">
+
+                        <!-- Linkedin -->
+                        <a class="btn btn-outline-dark btn-floating m-1" href="https://www.linkedin.com/in/shantel-williams-software-developer/" role="button"><i
+                                class="bi bi-linkedin"></i></a>
+
+                        <!-- Github -->
+                        <a class="btn  btn-outline-dark btn-floating m-1" href="https://github.com/Tellysone87" role="button"><i
+                                class="bi bi-github"></i></a>
+                    </section>
+                    <!-- Section: Social media -->
+                </div>
+                <!-- Grid container -->
+
+                <!-- Copyright -->
+                <div class="text-center p-3" id="copyright">
+                    © 2023 Copyright:
+                    <a href="/home" id="footerLink">PackTrack.com</a>
+                    <p>For educational use only</p>
+                <!-- Copyright -->
             </footer>
+            <!-- <footer>
+                    <p>Track all of your packages in one place. Never miss a delivery!</p>
+                    <p>PackTrack inc. For educational use only</p>
+                </footer> -->
         </div>
-    </span>
+        </span>
     </div>
 
     <!-- Bootstrap JavaScript Bundle with Popper (a Bootstrap dependency for popovers) -->
