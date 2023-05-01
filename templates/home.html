@@ -12,9 +12,22 @@ this is the websites home page-->
 
 <!-- Placing the body content into the body of page -->
 {% block content %}
+
+<!-- Creating the slogan effect -->
 <div class="row" id="slogan">
-    <h1> You've got Packages and we've got tracking</h1>
-    
+    <!-- row to center text -->
+    <section class="text-center">
+        <div class="row">
+            <div class="col-11">
+                <h1 class="mt-3">You've got <span id="package_span">Pack</span>ages</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10 offset-2">
+                <h1 class="mb-3">We've got <span id="tracking_span">Track</span>ing</h1>
+            </div>
+        </div>
+    </section>
 </div>
 
 <div class="col-2 offset-2">

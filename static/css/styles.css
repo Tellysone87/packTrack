@@ -209,8 +209,8 @@ a#viewMap{
 }
 
 h1,h2,h3,h4,h5,h6{
-    padding-top: 12px;
-    padding-bottom: 12px;
+    /* padding-top: 12px;
+    padding-bottom: 12px; */
     padding-left: 12px;
     padding-right: 12px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -284,4 +284,18 @@ h1,h2,h3,h4,h5,h6{
 
 #social{
     margin-bottom: 0! important;
+}
+
+#package_span{
+    color:  #58A4B0;
+    /* border: 2px solid #58A4B0; */
+    padding: 4px;
+    font-weight: 900;
+}
+
+#tracking_span{
+    color:  #58A4B0;
+    /* border: 2px solid #58A4B0; */
+    padding: 4px;
+    font-weight: 900;
 }
