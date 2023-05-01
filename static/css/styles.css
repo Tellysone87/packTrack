@@ -90,6 +90,7 @@ a#footerLink{
     background-color:  #58A4B0;
     color: black;
 }
+
  /* Profile tables Css is below */
 #profile_table {
     color: #373F51;
@@ -271,4 +272,16 @@ h1,h2,h3,h4,h5,h6{
 #sign_out a{
     text-decoration: underline;
     color: black;
+}
+
+.my-4{
+    font-weight: bold;
+}
+
+#register_page_sale{
+    background-color: #afced3;
+}
+
+#social{
+    margin-bottom: 0! important;
 }

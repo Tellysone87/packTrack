@@ -5,9 +5,11 @@
 {% block button %}{% endblock %}
 
 {% block content %}
-<h2>Why waste time with tracking links and tons of web windows.Create an Account
-    and start tracking online purchases now.
-</h2><br>
+<div class="row" id="register_page_sale">
+    <h2>Why waste time with tracking links and tons of web windows.Create an Account
+        and start tracking online purchases now.
+    </h2>
+</div>
 {% endblock %}
 
 {% block example %}
@@ -16,49 +18,55 @@
 <!-- Login fields for registered users -->
 <div>
     <form action="/users" method="POST" aria-label="New Member Registration Form">
-        <p>
-            <label for="First Name">First Name:</label>
-            <input type="text" id="First Name" name="fname" required>
-        </p>
+        <div class="mb-3">
+            <label for="First Name" class="form-label">First Name:</label>
+            <input type="text" class="form-control" id="First Name" name="fname" required>
+        </div>
 
-        <p>
-            <label for="Register Last Name">Last Name:</label>
-            <input type="text" id="Register Last Name"name="lname" required>
-        </p>
+        <div class="mb-3">
+            <label for="Register Last Name" class="form-label">Last Name:</label>
+            <input type="text" class="form-control" id="Register Last Name" name="lname" required>
+        </div>
 
-        <p>
-            <label for="Register Street Address">Street Address:</label>
-            <input type="text" id="Register Street Address" name="address" required>
-        </p>
+        <div class="mb-3">
+            <label for="Register Street Address" class="form-label">Street Address:</label>
+            <input type="text" class="form-control" id="Register Street Address" name="address" required>
+        </div>
 
-        <p>
-            <label for="Register City">City:</label>
-            <input type="text" id="Register City" name="city" required>
-        </p>
+        <div class="mb-3">
+            <label for="Register City" class="form-label">City:</label>
+            <input type="text" class="form-control" id="Register City" name="city" required>
+        </div>
 
-        <p>
-            <label for="Register State">State:</label>
-            <input type="text" id="Register State" name="state" required>
-        </p>
+        <div class="mb-3">
+            <label for="Register State" class="form-label">State:</label>
+            <input type="text" class="form-control" id="Register State" name="state" required>
+            <div id="ZipCodeHelpBlock" class="form-text">
+                2 letter state abbreviation.
+            </div>
+        </div>
 
-        <p>
-            <label for="Register Zip code">Zip Code:</label>
-            <input type="text" id="Register Zip code" name="zipcode" pattern="[0-9]{5}" required>
-        </p>
+        <div class="mb-3">
+            <label for="Register Zip code" class="form-label">Zip Code:</label>
+            <input type="text" class="form-control" id="Register Zip code" name="zipcode" pattern="[0-9]{5}" required>
+            <div id="ZipCodeHelpBlock" class="form-text">
+                Your 5 digit Zip Code.
+            </div>
+        </div>
 
-        <p>
-            <label for="Register Email">Email:</label>
-            <input type="email" id="Register Email"name="email" required>
-        </p>
+        <div class="mb-3">
+            <label for="Register Email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="Register Email" name="email" required>
+        </div>
 
-        <p>
-            <label for="Register password">Password:</label>
-            <input type="password" id="Register password"name="password" required>
-        </p>
+        <div class="mb-3">
+            <label for="Register password" class="form-label">Password:</label>
+            <input type="password" class="form-control" id="Register password" name="password" required>
+        </div>
 
-        <p>
-            <input type="submit" aria-label="submit registration form">
-        </p>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" aria-label="submit registration form">
+        </div>
     </form>
 </div>
 
