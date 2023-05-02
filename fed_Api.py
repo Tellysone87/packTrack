@@ -140,9 +140,8 @@ def get_events_info(tracking_number):
         events_library['location'] = f'{city_location},{state_location}'
 
         # condition if the location is None
-        if events_library['location'] == 'None, None':
+        if events_library['location'] == 'None,None':
             events_library['location'] = 'Unknown'
-        
     
         # Add the dictionary to my history dictionary
         history[event_num] = events_library

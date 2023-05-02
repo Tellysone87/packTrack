@@ -7,12 +7,17 @@
 
 
 {% block content %}
-<h1 id="num_packages"><span> Tracked packages: {{packages|length}}</span></h1><br>
-<a href="/map" id="viewMap">View map</a>
+<div class="row">
+    <div class="col-12">
+    <h1 id="num_packages"><span> Tracked packages: {{packages|length}}</span></h1>
+    <a href="/map" id="viewMap">View map</a>
+</div>
+</div>
+
 
 <div id="instructions" class="row">
-    <div class="col-11">
-        <h2>To view the package history:</h2>
+    <div class="col-12">
+        <h2 id="tracking_h2">To view the package history:</h2>
         <ol>
             <li>click the package history button in the associated row</li>
             <li>click the history button again to remove the history table before moving to a new package</li>
@@ -20,30 +25,30 @@
     </div>
 </div>
 
-<!-- create table for holding package data -->
-<p>The table below displays the lastest status of the package associated with the tracking number.</p>
-<div class="overflow-auto" id="pack_scroll">
-    <div class="row">
-    <table id="packages" class="col-12">
-        <th>Tracking</th>
-        <th>Status</th>
-        <th>Date Shipped</th>
-        <th>Location</th>
-        <th>Carrier</th>
-        <th>history</th>
-        {% for package in packages %}
-        <tr>
-            <td id="track_num">{{package.tracking_number}}</td>
-            <td>{{package.status}}</td>
-            <td>{{package.shipped_date.strftime('%m-%d-%Y')}}</td>
-            <td>{{package.location}}</td>
-            <td>{{package.carrier}}</td>
-            <td><button id="more_info" data-tracking="{{package.tracking_number}}">Package History</button></td>
-        </tr>
+<!-- <div class="overflow-auto" id="pack_scroll"> -->
+<div class="row">
+    <div class="col-12">
+        <table id="packages" class="col-12 offset">
+            <th>Tracking</th>
+            <th>Status</th>
+            <th>Date Shipped</th>
+            <th>Location</th>
+            <th>Carrier</th>
+            <th>history</th>
+            {% for package in packages %}
+            <tr>
+                <td id="track_num">{{package.tracking_number}}</td>
+                <td>{{package.status}}</td>
+                <td>{{package.shipped_date.strftime('%m-%d-%Y')}}</td>
+                <td>{{package.location}}</td>
+                <td>{{package.carrier}}</td>
+                <td><button id="more_info" data-tracking="{{package.tracking_number}}">Package History</button></td>
+            </tr>
 
-        {% endfor %}
-    </table>
-</div></div>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 
 {% endblock %}
 

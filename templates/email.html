@@ -1,18 +1,29 @@
 <!-- Extends from the base.html 
 this is the websites home page-->
-{% extends 'base.html' %}
 
 
-{% block content %}
-<div class="row" id="slogan">
-    <h1> You've got Packages and we got tracking</h1>
-</div>
 
-<div class="col-2 offset-2" id="ebody">
-    <p>You are receiving this email because you requested a email reset link. This reset link is only valid for 1 hour.
-    </p><br>
-    <div id='row'>
-        <a href={{link}}>Reset your password here</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PackTrackResetEmail</title>
+</head>
+<body>
+    <div class="row" id="slogan">
+        <h1> You've got Packages and we got tracking</h1>
     </div>
-</div>
-{% endblock %}
+    
+    <div class="col-2 offset-2" id="ebody">
+        <p>You are receiving this email because you requested a email reset link. This reset link is only valid for 1 hour.
+        </p><br>
+        <div id='row'>
+            <a href={{link}}>Reset your password here</a><br>
+        </div>
+    </div>
+    
+</body>
+</html>
+

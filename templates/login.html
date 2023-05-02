@@ -9,7 +9,20 @@ this is the websites home page-->
 
 <!-- Placing the body content into the body of page. lighter portion of row -->
 {% block content %}
-<h1 class="row" id="login_prompt"> Sign in to start tracking</h1><br>
+<div class="row" id="slogan_row">
+<h1 class="slogan"> Sign in to start tracking</h1>
+</div>
+
+<!-- Photo of happy delivery man -->
+<div class="row">
+    <div class="col-12" style="padding-right: 0;">
+        <div class="pic_box">
+            <img src="../static/img/Happy_delivery.png"
+                alt="a happy delivery man hugging a stack of parcel packages">
+                <div class="bottom-left">Image by benzoix on Freepik</div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 <!-- Example blick is the darker half of screen -->
@@ -42,7 +55,7 @@ this is the websites home page-->
 <!-- Prompts new users to register -->
 <div class="my-4">
 <p>Not yet a member?</p>
-<a href="/register"><button id="register_button">Register an Account</button></a>
+<a href="/register"><button id="register_button" class="btn btn-secondary">Register an Account</button></a>
 </div>
 
 {% endblock %}
