@@ -9,20 +9,23 @@ this is the websites home page-->
 
 <!-- Placing the body content into the body of page. lighter portion of row -->
 {% block content %}
-<div class="row" id="slogan_row">
-<h1 class="slogan"> Sign in to start tracking</h1>
-</div>
+<div class="container">
+    <div class="row" id="slogan_row">
+        <h1 class="slogan"> Sign in to start tracking</h1>
+    </div>
 
-<!-- Photo of happy delivery man -->
-<div class="row">
-    <div class="col-12" style="padding-right: 0;">
-        <div class="pic_box">
-            <img src="../static/img/Happy_delivery.png"
-                alt="a happy delivery man hugging a stack of parcel packages">
+    <!-- Photo of happy delivery man -->
+    <div class="row">
+        <div class="col-12" style="padding-right: 0;">
+            <div class="pic_box">
+                <img src="../static/img/Happy_delivery.png"
+                    alt="a happy delivery man hugging a stack of parcel packages">
                 <div class="bottom-left">Image by benzoix on Freepik</div>
+            </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
 
 <!-- Example blick is the darker half of screen -->
@@ -35,7 +38,7 @@ this is the websites home page-->
     <!-- Make a 12px spacer below -->
     <div class="mb-4">
         <label for="User login email" class="form-label">Email:</label>
-        <input id="User login email" type="email" class="form-control" name="email"  required>
+        <input id="User login email" type="email" class="form-control" name="email" required>
     </div>
 
     <div class="mb-4">
@@ -47,15 +50,15 @@ this is the websites home page-->
         <input type="submit" class="btn btn-primary" value="Submit Form" aria-label="submit login form">
     </div>
 
-    <div class="mb-3" id = "reset_link">
+    <div class="mb-3" id="reset_link">
         <a href="/reset_password">Reset your password</a>
     </div>
 </form>
 
 <!-- Prompts new users to register -->
 <div class="my-4">
-<p>Not yet a member?</p>
-<a href="/register"><button id="register_button" class="btn btn-secondary">Register an Account</button></a>
+    <p>Not yet a member?</p>
+    <a href="/register"><button id="register_button" class="btn btn-secondary">Register an Account</button></a>
 </div>
 
 {% endblock %}
