@@ -1,5 +1,5 @@
 # PackTrack
-<img src = "/static/img/Screenshot PackTrack.png" width = "400">
+<img src = "/static/img/Screenshot PackTrack.png" width = "600">
 
 # Summary
 
