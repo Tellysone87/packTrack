@@ -1,0 +1,375 @@
+{
+    "transactionId": "c32a2bb4-e99a-43d6-a1d9-a6aeb065d001",
+    "output": {
+        "completeTrackResults": [
+            {
+                "trackingNumber": "619945437643",
+                "trackResults": [
+                    {
+                        "trackingNumberInfo": {
+                            "trackingNumber": "619945437643",
+                            "trackingNumberUniqueId": "12025~619945437643~FDEG",
+                            "carrierCode": "FDXG"
+                        },
+                        "additionalTrackingInfo": {
+                            "nickname": "",
+                            "packageIdentifiers": [
+                                {
+                                    "type": "GROUND_SHIPMENT_ID",
+                                    "values": [
+                                        "619945437643"
+                                    ],
+                                    "trackingNumberUniqueId": "",
+                                    "carrierCode": ""
+                                },
+                                {
+                                    "type": "PURCHASE_ORDER",
+                                    "values": [
+                                        "1330586393-1"
+                                    ],
+                                    "trackingNumberUniqueId": "",
+                                    "carrierCode": ""
+                                },
+                                {
+                                    "type": "CUSTOMER_REFERENCE",
+                                    "values": [
+                                        "1330586393-1"
+                                    ],
+                                    "trackingNumberUniqueId": "",
+                                    "carrierCode": ""
+                                },
+                                {
+                                    "type": "INVOICE",
+                                    "values": [
+                                        "1330586393-1"
+                                    ],
+                                    "trackingNumberUniqueId": "",
+                                    "carrierCode": ""
+                                }
+                            ],
+                            "hasAssociatedShipments": false
+                        },
+                        "shipperInformation": {
+                            "contact": {},
+                            "address": {
+                                "city": "Dayton",
+                                "stateOrProvinceCode": "OH",
+                                "countryCode": "US",
+                                "residential": false,
+                                "countryName": "United States"
+                            }
+                        },
+                        "recipientInformation": {
+                            "contact": {},
+                            "address": {
+                                "city": "DETROIT",
+                                "stateOrProvinceCode": "MI",
+                                "countryCode": "US",
+                                "residential": false,
+                                "countryName": "United States"
+                            }
+                        },
+                        "latestStatusDetail": {
+                            "code": "DL",
+                            "derivedCode": "DL",
+                            "statusByLocale": "Delivered",
+                            "description": "Delivered",
+                            "scanLocation": {
+                                "city": "Detroit",
+                                "stateOrProvinceCode": "MI",
+                                "countryCode": "US",
+                                "residential": false,
+                                "countryName": "United States"
+                            },
+                            "ancillaryDetails": [
+                                {
+                                    "reason": "014",
+                                    "reasonDescription": "Left at front door.Signature Service not requested.",
+                                    "action": "",
+                                    "actionDescription": ""
+                                }
+                            ]
+                        },
+                        "dateAndTimes": [
+                            {
+                                "type": "ACTUAL_DELIVERY",
+                                "dateTime": "2023-03-25T11:04:10-04:00"
+                            },
+                            {
+                                "type": "ACTUAL_PICKUP",
+                                "dateTime": "2023-03-24T00:00:00-06:00"
+                            },
+                            {
+                                "type": "SHIP",
+                                "dateTime": "2023-03-24T00:00:00-06:00"
+                            },
+                            {
+                                "type": "ACTUAL_TENDER",
+                                "dateTime": "2023-03-24T00:00:00-06:00"
+                            },
+                            {
+                                "type": "ANTICIPATED_TENDER",
+                                "dateTime": "2023-03-24T00:00:00-06:00"
+                            }
+                        ],
+                        "availableImages": [],
+                        "packageDetails": {
+                            "packagingDescription": {
+                                "type": "YOUR_PACKAGING",
+                                "description": "Package"
+                            },
+                            "physicalPackagingType": "PACKAGE",
+                            "sequenceNumber": "1",
+                            "count": "1",
+                            "weightAndDimensions": {
+                                "weight": [
+                                    {
+                                        "value": "4.5",
+                                        "unit": "LB"
+                                    },
+                                    {
+                                        "value": "2.04",
+                                        "unit": "KG"
+                                    }
+                                ]
+                            },
+                            "packageContent": []
+                        },
+                        "shipmentDetails": {
+                            "possessionStatus": true
+                        },
+                        "scanEvents": [
+                            {
+                                "date": "2023-03-25T11:04:10-04:00",
+                                "eventType": "DL",
+                                "eventDescription": "Delivered",
+                                "exceptionCode": "014",
+                                "exceptionDescription": "Left at front door. Signature Service not requested.",
+                                "scanLocation": {
+                                    "streetLines": [
+                                        ""
+                                    ],
+                                    "city": "Detroit",
+                                    "stateOrProvinceCode": "MI",
+                                    "postalCode": "48224",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                },
+                                "locationType": "DELIVERY_LOCATION",
+                                "derivedStatusCode": "DL",
+                                "derivedStatus": "Delivered"
+                            },
+                            {
+                                "date": "2023-03-25T04:57:00-04:00",
+                                "eventType": "OD",
+                                "eventDescription": "On FedEx vehicle for delivery",
+                                "exceptionCode": "",
+                                "exceptionDescription": "",
+                                "scanLocation": {
+                                    "streetLines": [
+                                        ""
+                                    ],
+                                    "city": "OAK PARK",
+                                    "stateOrProvinceCode": "MI",
+                                    "postalCode": "48237",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                },
+                                "locationId": "0483",
+                                "locationType": "VEHICLE",
+                                "derivedStatusCode": "IT",
+                                "derivedStatus": "In transit"
+                            },
+                            {
+                                "date": "2023-03-25T04:54:29-04:00",
+                                "eventType": "AO",
+                                "eventDescription": "Shipment arriving On-Time",
+                                "exceptionCode": "",
+                                "exceptionDescription": "",
+                                "scanLocation": {
+                                    "streetLines": [
+                                        ""
+                                    ],
+                                    "city": "OAK PARK",
+                                    "stateOrProvinceCode": "MI",
+                                    "postalCode": "48237",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                },
+                                "locationId": "0483",
+                                "locationType": "FEDEX_FACILITY",
+                                "derivedStatusCode": "IT",
+                                "derivedStatus": "In transit"
+                            },
+                            {
+                                "date": "2023-03-25T04:52:00-04:00",
+                                "eventType": "AR",
+                                "eventDescription": "Arrived at FedEx location",
+                                "exceptionCode": "",
+                                "exceptionDescription": "",
+                                "scanLocation": {
+                                    "streetLines": [
+                                        ""
+                                    ],
+                                    "city": "OAK PARK",
+                                    "stateOrProvinceCode": "MI",
+                                    "postalCode": "48237",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                },
+                                "locationId": "0483",
+                                "locationType": "FEDEX_FACILITY",
+                                "derivedStatusCode": "IT",
+                                "derivedStatus": "In transit"
+                            },
+                            {
+                                "date": "2023-03-25T04:50:00-04:00",
+                                "eventType": "AR",
+                                "eventDescription": "At local FedEx facility",
+                                "exceptionCode": "",
+                                "exceptionDescription": "",
+                                "scanLocation": {
+                                    "streetLines": [
+                                        ""
+                                    ],
+                                    "city": "OAK PARK",
+                                    "stateOrProvinceCode": "MI",
+                                    "postalCode": "48237",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                },
+                                "locationId": "0483",
+                                "locationType": "DESTINATION_FEDEX_FACILITY",
+                                "derivedStatusCode": "IT",
+                                "derivedStatus": "In transit"
+                            },
+                            {
+                                "date": "2023-03-24T09:01:00-04:00",
+                                "eventType": "OC",
+                                "eventDescription": "Shipment information sent to FedEx",
+                                "exceptionCode": "",
+                                "exceptionDescription": "",
+                                "scanLocation": {
+                                    "streetLines": [
+                                        ""
+                                    ],
+                                    "postalCode": "45377",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                },
+                                "locationType": "CUSTOMER",
+                                "derivedStatusCode": "IN",
+                                "derivedStatus": "Initiated"
+                            },
+                            {
+                                "date": "2023-03-24T00:00:00",
+                                "eventType": "PU",
+                                "eventDescription": "Picked up",
+                                "exceptionCode": "",
+                                "exceptionDescription": "",
+                                "scanLocation": {
+                                    "streetLines": [
+                                        ""
+                                    ],
+                                    "city": "VANDALIA",
+                                    "stateOrProvinceCode": "OH",
+                                    "postalCode": "45377",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                },
+                                "locationId": "0454",
+                                "locationType": "PICKUP_LOCATION",
+                                "derivedStatusCode": "PU",
+                                "derivedStatus": "Picked up"
+                            }
+                        ],
+                        "availableNotifications": [
+                            "ON_DELIVERY"
+                        ],
+                        "deliveryDetails": {
+                            "actualDeliveryAddress": {
+                                "city": "Detroit",
+                                "stateOrProvinceCode": "MI",
+                                "countryCode": "US",
+                                "residential": false,
+                                "countryName": "United States"
+                            },
+                            "deliveryAttempts": "0",
+                            "receivedByName": "Signature not required",
+                            "deliveryOptionEligibilityDetails": [
+                                {
+                                    "option": "INDIRECT_SIGNATURE_RELEASE",
+                                    "eligibility": "INELIGIBLE"
+                                },
+                                {
+                                    "option": "REDIRECT_TO_HOLD_AT_LOCATION",
+                                    "eligibility": "INELIGIBLE"
+                                },
+                                {
+                                    "option": "REROUTE",
+                                    "eligibility": "INELIGIBLE"
+                                },
+                                {
+                                    "option": "RESCHEDULE",
+                                    "eligibility": "INELIGIBLE"
+                                },
+                                {
+                                    "option": "RETURN_TO_SHIPPER",
+                                    "eligibility": "INELIGIBLE"
+                                },
+                                {
+                                    "option": "DISPUTE_DELIVERY",
+                                    "eligibility": "INELIGIBLE"
+                                },
+                                {
+                                    "option": "SUPPLEMENT_ADDRESS",
+                                    "eligibility": "INELIGIBLE"
+                                }
+                            ]
+                        },
+                        "originLocation": {
+                            "locationContactAndAddress": {
+                                "address": {
+                                    "city": "VANDALIA",
+                                    "stateOrProvinceCode": "OH",
+                                    "countryCode": "US",
+                                    "residential": false,
+                                    "countryName": "United States"
+                                }
+                            }
+                        },
+                        "lastUpdatedDestinationAddress": {
+                            "city": "DETROIT",
+                            "stateOrProvinceCode": "MI",
+                            "countryCode": "US",
+                            "residential": false,
+                            "countryName": "United States"
+                        },
+                        "serviceDetail": {
+                            "type": "GROUND_HOME_DELIVERY",
+                            "description": "FedEx Home Delivery",
+                            "shortDescription": "HD"
+                        },
+                        "standardTransitTimeWindow": {
+                            "window": {
+                                "ends": "2023-03-25T00:00:00-06:00"
+                            }
+                        },
+                        "estimatedDeliveryTimeWindow": {
+                            "window": {}
+                        },
+                        "goodsClassificationCode": "",
+                        "returnDetail": {}
+                    }
+                ]
+            }
+        ]
+    }
+}

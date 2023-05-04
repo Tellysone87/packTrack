@@ -40,7 +40,7 @@ document.querySelector('#reset').addEventListener('submit', (evt) => {
             }
 
             else if(responseJson.current_user === false){
-                message_area.innerHTML = "This email is not registered with an account. Please try again";
+                message_area.innerHTML = "This email is not registered with an account. Please try again or register if you are a new user. ";
                 
             }
     });

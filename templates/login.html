@@ -8,28 +8,32 @@ this is the websites home page-->
 {% block button %}{% endblock %}
 
 <!-- Placing the body content into the body of page. lighter portion of row -->
-{% block content %}
-<div class="container">
-    <div class="row" id="slogan_row">
-        <h1 class="slogan"> Sign in to start tracking</h1>
-    </div>
 
-    <!-- Photo of happy delivery man -->
-    <div class="row">
+{% block content %}
+
+<div class="row" id="slogan_row">
+    <h1 class="slogan"> Sign in to start tracking</h1>
+    <!-- picture row -->
+    <div class="row ">
         <div class="col-12" style="padding-right: 0;">
             <div class="pic_box">
-                <img src="../static/img/Happy_delivery.png"
-                    alt="a happy delivery man hugging a stack of parcel packages">
-                <div class="bottom-left">Image by benzoix on Freepik</div>
+            <img src="../static/img/Happy_delivery.png" alt="a happy delivery man hugging a stack of parcel packages">
+            <p>Image by benzoix on Freepik</p>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Photo of happy delivery man -->
+
+
+<!-- max-height: 100vh; -->
+
 {% endblock %}
 
 <!-- Example blick is the darker half of screen -->
 {% block example %}
+
 <h2 id="sign_in_label">Sign In</h2>
 
 <!-- Login fields for registered users -->

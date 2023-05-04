@@ -31,7 +31,8 @@ The other webpages will inherit this html to ensure the theme is universal -->
     <div class="row">
         <nav class="navbar navbar-expand-lg" style="background-color: #373f51;">
             <div class="container-fluid" id="nav_bar">
-                <img src="../static/img/packTrackLogo.png" alt="logo of delivery truck and packages" width="150" height="100">
+                <img src="../static/img/packTrackLogo.png" alt="logo of delivery truck and packages" width="150"
+                    height="100">
                 <a href="/home">
                     <h1 id="h1_nav">PackTrack</h1>
                 </a>
@@ -40,14 +41,15 @@ The other webpages will inherit this html to ensure the theme is universal -->
         </nav>
     </div>
     <div class="row" id="mid_layout">
-        <div class="col-8" id="Welcome_message">
-            {% block content %}{% endblock %}
-        </div>
+            <div class="col-8 d-flex" id="Welcome_message">
+                {% block content %}{% endblock %}
+            </div>
         <div class="col-4" id="show_example">
             {% block example %}{% endblock %}
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="fixed-bottom"> -->
+    <div class="row" >
         <div class="col-12">
 
             <footer class="text-center">
@@ -57,12 +59,13 @@ The other webpages will inherit this html to ensure the theme is universal -->
                     <section class="mb-4" id="social">
 
                         <!-- Linkedin -->
-                        <a class="btn btn-outline-dark btn-floating m-1" href="https://www.linkedin.com/in/shantel-williams-software-developer/" role="button"><i
+                        <a class="btn btn-outline-dark btn-floating m-1"
+                            href="https://www.linkedin.com/in/shantel-williams-software-developer/" role="button"><i
                                 class="bi bi-linkedin"></i> LinkedIn</a>
 
                         <!-- Github -->
-                        <a class="btn  btn-outline-dark btn-floating m-1" href="https://github.com/Tellysone87" role="button"><i
-                                class="bi bi-github"></i> Github</a>
+                        <a class="btn  btn-outline-dark btn-floating m-1" href="https://github.com/Tellysone87"
+                            role="button"><i class="bi bi-github"></i> Github</a>
                     </section>
                     <!-- Section: Social media -->
                 </div>
@@ -73,11 +76,12 @@ The other webpages will inherit this html to ensure the theme is universal -->
                     © 2023 Copyright:
                     <a href="/home" id="footerLink">PackTrack.com</a>
                     <p>For educational use only</p>
-                <!-- Copyright -->
+                    <!-- Copyright -->
             </footer>
         </div>
         </span>
     </div>
+<!-- </div> -->
 
     <!-- Bootstrap JavaScript Bundle with Popper (a Bootstrap dependency for popovers) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
