@@ -9,6 +9,7 @@ create status - creates a new status.
 create item = creates a new item.
 get package by user - returns the users packages by user_id.
 get_user_by_email(email) - gets the user id based on the email provided.
+Update package(tracking_number) - updates package location with new status. 
 
 ---------------------------2.0 section of web app ---------------------------------------------
 get status by package - returns that package current status.
@@ -52,6 +53,14 @@ def create_package(user_id, tracking_number, shipped_date, location, status, mer
     )
 
     return package  # returning that instance object
+
+def update_package(Package,shipped_date, location, status, merchant, carrier):
+    """ updates current package with the most recent location status"""
+    Package.shipped_date=shipped_date,
+    Package.location=location,
+    Package.status=status,
+    Package.merchant=merchant,
+    Package.carrier=carrier
 
 
 def create_status(package_id, status, date):

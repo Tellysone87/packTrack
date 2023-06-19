@@ -75,8 +75,9 @@ def show_map():
         flash("Please sign in or make a account to view this page.")
         return redirect('/login')
     
-@app.route('/location')
+@app.route('/location') # used in maps.js to send locations to the google map
 def send_location_library():
+    """ Used to send all package locations to the google map api"""
     location_library = {}
     location = []
 
@@ -311,6 +312,35 @@ def load_tracking_page():
         # grab all packages connected to that user
         packages = crud.get_packages_by_user(user.user_id)
 
+        # we need to grab the tracking numbers from the users packages to update locations
+        for pack in packages: # grab each current package
+            print(pack.tracking_number)
+
+            # gets the Fedex api json for the package by calling fed_Api function
+            try: # try to update tracking if not return message
+                info = fed_Api.get_tracking_info(pack.tracking_number) # returns library from fed ex api
+
+                # grabs the information needed from the api library I need to update field each time the 
+                # page is loaded
+                shipped_date = info['shipped']
+                location = info['location']
+                status = info['status']
+                merchant = info['merchant']
+                carrier = info['carrier']
+
+            # I then need to make an update record function here imported from crud.py.
+            # grabbing each pack by tracking number and then updating required fields. 
+            # it is currently slowing down the process and this will need to be tested. 6/19/2023
+                packs = crud.get_package_by_tracking(pack.tracking_number)
+                print(F'{packs} _________')
+                crud.update_package(pack,shipped_date,location,status,merchant,carrier)
+                
+
+            except KeyError: # else display message to user
+                flash(f'We are not able to track package number {pack.tracking_number} at this time.')
+                return redirect('/tracking')
+            
+        db.session.commit() # commit any updates 
         return render_template("tracking.html", packages=packages) #return trackage with the packages
     else:
         flash("Please sign in or make a account to view this page.")
