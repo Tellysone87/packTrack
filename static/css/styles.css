@@ -32,6 +32,8 @@ body {
 footer {
     background-color:  #58a4b0;
     color: black;
+    /* overflow: hidden; */
+   
 }
 
 a#footerLink{

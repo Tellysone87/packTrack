@@ -330,8 +330,6 @@ def update_profile():
     state = request.form.get("state").strip()
     zipcode = request.form.get("zipcode").strip()
     email = request.form.get("email").strip()
-
-    update_fields=[fname,lname,address,city,state,zipcode,email]
    
     # the field is updated where the user adds a new value
     if fname != "":
@@ -355,17 +353,12 @@ def update_profile():
     if email != "":
         user.email = email
 
-    for field in update_fields:
-        if field != "":
-        # if data was added 
-            db.session.commit() # commit those changes. 
-            session["user_email"] = user.email #reset the new email as the users in session now
-            flash("Your account has been updated.")
-            return redirect("/profile") # redirect and show changes. 
-        else:
-            flash("Please enter data on field to update.")
-            return redirect("/profile")
-        
+  
+    db.session.commit() # commit those changes. 
+    session["user_email"] = user.email #reset the new email as the users in session now
+    flash("Your account has been updated.")
+    return redirect("/profile") # redirect and show changes. 
+
 
 # route to display reset password page
 @app.route('/reset_password')
