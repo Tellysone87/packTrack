@@ -135,6 +135,11 @@ a {
     font-weight: bold;
 }
 
+a#email_link {
+    color: darkblue;
+    text-decoration: underline
+}
+
 a#viewMap{
     color:  #373f51;
     font-weight: bold;
