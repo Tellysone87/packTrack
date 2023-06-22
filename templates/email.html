@@ -1,29 +1,53 @@
-<!-- Extends from the base.html 
-this is the websites home page-->
-
-
+<!-- This is the websites home page-->
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Load Bootstrap for orginizing webpages-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Load our stylesheet -->
+    <link rel="stylesheet" href="../static/css/styles.css">
+
     <title>PackTrackResetEmail</title>
 </head>
+
 <body>
-    <div class="row" id="slogan" style="background-color: aqua;">
-        <h1> You've got Packages and we got tracking</h1>
+    <!-- this is the header for my email. It contains the logo strip and company name -->
+    <div class="row">
+        <nav class="navbar navbar-expand-lg" style="background-color: #373f51;">
+            <div class="container-fluid" id="nav_bar">
+                <img src="../static/img/packTrackLogo.png" alt="logo of delivery truck and packages" width="150"
+                    height="100">
+                <a href="/home">
+                    <h1 id="h1_nav">PackTrack</h1>
+                </a>
+            </div>
+        </nav>
     </div>
-    
-    <div class="col-2 offset-2" id="ebody" style="background-color: beige;">
-        <p>You are receiving this email because you requested a email reset link. This reset link is only valid for 1 hour.
-        </p><br>
-        <div id='row'>
-            <a href={{link}}>Reset your password here</a><br>
+
+    <!-- Setting the row to contain meesage for user to click reset link -->
+    <div class="row" id="backgroundBox" style="background-color:lightcyan;">
+        <div class="row" id="slogan" style="background-color:cyan;">
+            <h1> You've got Packages and we got tracking</h1>
+        </div>
+
+        <div class="row" id="ebody">
+            <p>You are receiving this email because you requested a email reset link. This reset link is only valid for
+                1 hour.
+                <div id='row' style="color: darkblue;">
+                    <a href={{link}}>Reset your password here</a><br>
+                </div>
+            </p><br>
         </div>
     </div>
-    
-</body>
-</html>
 
+</body>
+
+</html>
